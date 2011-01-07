@@ -1,0 +1,331 @@
+--- 
+active_plugins: 
+  autoload: "yes"
+  option_value: a:0:{}
+admin_email: 
+  autoload: "yes"
+  option_value: fr2@criticaljuncture.org
+advanced_edit: 
+  autoload: "yes"
+  option_value: "0"
+avatar_default: 
+  autoload: "yes"
+  option_value: mystery
+avatar_rating: 
+  autoload: "yes"
+  option_value: G
+blacklist_keys: 
+  autoload: "no"
+  option_value: ""
+blog_charset: 
+  autoload: "yes"
+  option_value: UTF-8
+blog_public: 
+  autoload: "yes"
+  option_value: "1"
+blogdescription: 
+  autoload: "yes"
+  option_value: Just another WordPress site
+blogname: 
+  autoload: "yes"
+  option_value: Federal Register
+can_compress_scripts: 
+  autoload: "yes"
+  option_value: "1"
+category_base: 
+  autoload: "yes"
+  option_value: ""
+category_children: 
+  autoload: "yes"
+  option_value: a:0:{}
+close_comments_days_old: 
+  autoload: "yes"
+  option_value: "14"
+close_comments_for_old_posts: 
+  autoload: "yes"
+  option_value: "0"
+comment_max_links: 
+  autoload: "yes"
+  option_value: "2"
+comment_moderation: 
+  autoload: "yes"
+  option_value: "0"
+comment_order: 
+  autoload: "yes"
+  option_value: asc
+comment_registration: 
+  autoload: "yes"
+  option_value: "0"
+comment_whitelist: 
+  autoload: "yes"
+  option_value: "1"
+comments_notify: 
+  autoload: "yes"
+  option_value: "1"
+comments_per_page: 
+  autoload: "yes"
+  option_value: "50"
+cron: 
+  autoload: "yes"
+  option_value: a:3:{i:1294386394;a:3:{s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1294429598;a:1:{s:19:"wp_scheduled_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}s:7:"version";i:2;}
+current_theme: 
+  autoload: "yes"
+  option_value: FR2
+dashboard_widget_options: 
+  autoload: "yes"
+  option_value: a:4:{s:25:"dashboard_recent_comments";a:1:{s:5:"items";i:5;}s:24:"dashboard_incoming_links";a:5:{s:4:"home";s:16:"http://fr2.local";s:4:"link";s:92:"http://blogsearch.google.com/blogsearch?scoring=d&partner=wordpress&q=link:http://fr2.local/";s:3:"url";s:130:"http://blogsearch.google.com/blogsearch_feeds?scoring=d&ie=utf-8&num=10&output=rss&partner=wordpress&q=link:http://fr2-blog.local/";s:5:"items";i:10;s:9:"show_date";b:0;}s:17:"dashboard_primary";a:7:{s:4:"link";s:26:"http://wordpress.org/news/";s:3:"url";s:31:"http://wordpress.org/news/feed/";s:5:"title";s:14:"WordPress Blog";s:5:"items";i:2;s:12:"show_summary";i:1;s:11:"show_author";i:0;s:9:"show_date";i:1;}s:19:"dashboard_secondary";a:7:{s:4:"link";s:28:"http://planet.wordpress.org/";s:3:"url";s:33:"http://planet.wordpress.org/feed/";s:5:"title";s:20:"Other WordPress News";s:5:"items";i:5;s:12:"show_summary";i:0;s:11:"show_author";i:0;s:9:"show_date";i:0;}}
+date_format: 
+  autoload: "yes"
+  option_value: F j, Y
+db_version: 
+  autoload: "yes"
+  option_value: "15477"
+default_category: 
+  autoload: "yes"
+  option_value: "1"
+default_comment_status: 
+  autoload: "yes"
+  option_value: open
+default_comments_page: 
+  autoload: "yes"
+  option_value: newest
+default_email_category: 
+  autoload: "yes"
+  option_value: "1"
+default_link_category: 
+  autoload: "yes"
+  option_value: "2"
+default_ping_status: 
+  autoload: "yes"
+  option_value: open
+default_pingback_flag: 
+  autoload: "yes"
+  option_value: "1"
+default_post_edit_rows: 
+  autoload: "yes"
+  option_value: "10"
+default_role: 
+  autoload: "yes"
+  option_value: subscriber
+embed_autourls: 
+  autoload: "yes"
+  option_value: "1"
+embed_size_h: 
+  autoload: "yes"
+  option_value: "600"
+embed_size_w: 
+  autoload: "yes"
+  option_value: ""
+enable_app: 
+  autoload: "yes"
+  option_value: "0"
+enable_xmlrpc: 
+  autoload: "yes"
+  option_value: "0"
+gmt_offset: 
+  autoload: "yes"
+  option_value: "0"
+gzipcompression: 
+  autoload: "yes"
+  option_value: "0"
+hack_file: 
+  autoload: "yes"
+  option_value: "0"
+home: 
+  autoload: "yes"
+  option_value: http://fr2.local/
+html_type: 
+  autoload: "yes"
+  option_value: text/html
+image_default_align: 
+  autoload: "yes"
+  option_value: ""
+image_default_link_type: 
+  autoload: "yes"
+  option_value: file
+image_default_size: 
+  autoload: "yes"
+  option_value: ""
+large_size_h: 
+  autoload: "yes"
+  option_value: "1024"
+large_size_w: 
+  autoload: "yes"
+  option_value: "1024"
+links_recently_updated_append: 
+  autoload: "yes"
+  option_value: </em>
+links_recently_updated_prepend: 
+  autoload: "yes"
+  option_value: <em>
+links_recently_updated_time: 
+  autoload: "yes"
+  option_value: "120"
+links_updated_date_format: 
+  autoload: "yes"
+  option_value: F j, Y g:i a
+mailserver_login: 
+  autoload: "yes"
+  option_value: login@example.com
+mailserver_pass: 
+  autoload: "yes"
+  option_value: password
+mailserver_port: 
+  autoload: "yes"
+  option_value: "110"
+mailserver_url: 
+  autoload: "yes"
+  option_value: mail.example.com
+medium_size_h: 
+  autoload: "yes"
+  option_value: "300"
+medium_size_w: 
+  autoload: "yes"
+  option_value: "300"
+moderation_keys: 
+  autoload: "no"
+  option_value: ""
+moderation_notify: 
+  autoload: "yes"
+  option_value: "1"
+page_comments: 
+  autoload: "yes"
+  option_value: "0"
+page_for_posts: 
+  autoload: "yes"
+  option_value: "0"
+page_on_front: 
+  autoload: "yes"
+  option_value: "0"
+permalink_structure: 
+  autoload: "yes"
+  option_value: /blog/%year%/%monthnum%/%postname%/
+ping_sites: 
+  autoload: "yes"
+  option_value: http://rpc.pingomatic.com/
+posts_per_page: 
+  autoload: "yes"
+  option_value: "10"
+posts_per_rss: 
+  autoload: "yes"
+  option_value: "10"
+require_name_email: 
+  autoload: "yes"
+  option_value: "1"
+rss_language: 
+  autoload: "yes"
+  option_value: en
+rss_use_excerpt: 
+  autoload: "yes"
+  option_value: "0"
+show_avatars: 
+  autoload: "yes"
+  option_value: "1"
+show_on_front: 
+  autoload: "yes"
+  option_value: posts
+sidebars_widgets: 
+  autoload: "yes"
+  option_value: a:8:{s:19:"wp_inactive_widgets";a:0:{}s:19:"primary-widget-area";a:2:{i:0;s:8:"search-2";i:1;s:10:"archives-2";}s:21:"secondary-widget-area";a:0:{}s:24:"first-footer-widget-area";a:0:{}s:25:"second-footer-widget-area";a:0:{}s:24:"third-footer-widget-area";a:0:{}s:25:"fourth-footer-widget-area";a:0:{}s:13:"array_version";i:3;}
+siteurl: 
+  autoload: "yes"
+  option_value: http://fr2.local/
+start_of_week: 
+  autoload: "yes"
+  option_value: "1"
+sticky_posts: 
+  autoload: "yes"
+  option_value: a:0:{}
+stylesheet: 
+  autoload: "yes"
+  option_value: fr2
+tag_base: 
+  autoload: "yes"
+  option_value: ""
+template: 
+  autoload: "yes"
+  option_value: fr2
+thread_comments: 
+  autoload: "yes"
+  option_value: "1"
+thread_comments_depth: 
+  autoload: "yes"
+  option_value: "5"
+thumbnail_crop: 
+  autoload: "yes"
+  option_value: "1"
+thumbnail_size_h: 
+  autoload: "yes"
+  option_value: "150"
+thumbnail_size_w: 
+  autoload: "yes"
+  option_value: "150"
+time_format: 
+  autoload: "yes"
+  option_value: g:i a
+timezone_string: 
+  autoload: "yes"
+  option_value: ""
+upload_path: 
+  autoload: "yes"
+  option_value: ""
+upload_url_path: 
+  autoload: "yes"
+  option_value: ""
+uploads_use_yearmonth_folders: 
+  autoload: "yes"
+  option_value: "1"
+use_balanceTags: 
+  autoload: "yes"
+  option_value: "0"
+use_smilies: 
+  autoload: "yes"
+  option_value: "1"
+use_trackback: 
+  autoload: "yes"
+  option_value: "0"
+users_can_register: 
+  autoload: "yes"
+  option_value: "0"
+widget_archives: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:3:{s:5:"title";s:0:"";s:5:"count";i:0;s:8:"dropdown";i:0;}s:12:"_multiwidget";i:1;}
+widget_calendar: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:0:{}s:12:"_multiwidget";i:1;}
+widget_categories: 
+  autoload: "yes"
+  option_value: a:1:{s:12:"_multiwidget";i:1;}
+widget_links: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:0:{}s:12:"_multiwidget";i:1;}
+widget_meta: 
+  autoload: "yes"
+  option_value: a:1:{s:12:"_multiwidget";i:1;}
+widget_nav_menu: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:0:{}s:12:"_multiwidget";i:1;}
+widget_pages: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:0:{}s:12:"_multiwidget";i:1;}
+widget_recent-comments: 
+  autoload: "yes"
+  option_value: a:1:{s:12:"_multiwidget";i:1;}
+widget_recent-posts: 
+  autoload: "yes"
+  option_value: a:1:{s:12:"_multiwidget";i:1;}
+widget_rss: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:0:{}s:12:"_multiwidget";i:1;}
+widget_search: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:1:{s:5:"title";s:0:"";}s:12:"_multiwidget";i:1;}
+widget_tag_cloud: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:0:{}s:12:"_multiwidget";i:1;}
+widget_text: 
+  autoload: "yes"
+  option_value: a:2:{i:2;a:0:{}s:12:"_multiwidget";i:1;}
+wporg_popular_tags: 
+  autoload: "no"
+  option_value: O:8:"stdClass":2:{s:7:"timeout";i:1294016353;s:6:"cached";a:40:{s:6:"widget";a:3:{s:4:"name";s:6:"widget";s:4:"slug";s:6:"widget";s:5:"count";s:4:"2071";}s:4:"post";a:3:{s:4:"name";s:4:"Post";s:4:"slug";s:4:"post";s:5:"count";s:4:"1465";}s:6:"plugin";a:3:{s:4:"name";s:6:"plugin";s:4:"slug";s:6:"plugin";s:5:"count";s:4:"1281";}s:5:"posts";a:3:{s:4:"name";s:5:"posts";s:4:"slug";s:5:"posts";s:5:"count";s:4:"1111";}s:5:"admin";a:3:{s:4:"name";s:5:"admin";s:4:"slug";s:5:"admin";s:5:"count";s:4:"1081";}s:7:"sidebar";a:3:{s:4:"name";s:7:"sidebar";s:4:"slug";s:7:"sidebar";s:5:"count";s:4:"1054";}s:8:"comments";a:3:{s:4:"name";s:8:"comments";s:4:"slug";s:8:"comments";s:5:"count";s:3:"797";}s:6:"images";a:3:{s:4:"name";s:6:"images";s:4:"slug";s:6:"images";s:5:"count";s:3:"719";}s:7:"twitter";a:3:{s:4:"name";s:7:"twitter";s:4:"slug";s:7:"twitter";s:5:"count";s:3:"653";}s:4:"page";a:3:{s:4:"name";s:4:"page";s:4:"slug";s:4:"page";s:5:"count";s:3:"642";}s:6:"google";a:3:{s:4:"name";s:6:"google";s:4:"slug";s:6:"google";s:5:"count";s:3:"629";}s:5:"links";a:3:{s:4:"name";s:5:"links";s:4:"slug";s:5:"links";s:5:"count";s:3:"615";}s:5:"image";a:3:{s:4:"name";s:5:"image";s:4:"slug";s:5:"image";s:5:"count";s:3:"564";}s:3:"seo";a:3:{s:4:"name";s:3:"seo";s:4:"slug";s:3:"seo";s:5:"count";s:3:"509";}s:3:"rss";a:3:{s:4:"name";s:3:"rss";s:4:"slug";s:3:"rss";s:5:"count";s:3:"483";}s:7:"gallery";a:3:{s:4:"name";s:7:"gallery";s:4:"slug";s:7:"gallery";s:5:"count";s:3:"439";}s:5:"pages";a:3:{s:4:"name";s:5:"pages";s:4:"slug";s:5:"pages";s:5:"count";s:3:"391";}s:4:"ajax";a:3:{s:4:"name";s:4:"AJAX";s:4:"slug";s:4:"ajax";s:5:"count";s:3:"388";}s:7:"widgets";a:3:{s:4:"name";s:7:"widgets";s:4:"slug";s:7:"widgets";s:5:"count";s:3:"353";}s:9:"wordpress";a:3:{s:4:"name";s:9:"wordpress";s:4:"slug";s:9:"wordpress";s:5:"count";s:3:"332";}s:6:"social";a:3:{s:4:"name";s:6:"social";s:4:"slug";s:6:"social";s:5:"count";s:3:"327";}s:4:"feed";a:3:{s:4:"name";s:4:"feed";s:4:"slug";s:4:"feed";s:5:"count";s:3:"325";}s:8:"facebook";a:3:{s:4:"name";s:8:"Facebook";s:4:"slug";s:8:"facebook";s:5:"count";s:3:"307";}s:5:"photo";a:3:{s:4:"name";s:5:"photo";s:4:"slug";s:5:"photo";s:5:"count";s:3:"304";}s:6:"photos";a:3:{s:4:"name";s:6:"photos";s:4:"slug";s:6:"photos";s:5:"count";s:3:"304";}s:5:"media";a:3:{s:4:"name";s:5:"media";s:4:"slug";s:5:"media";s:5:"count";s:3:"298";}s:5:"flash";a:3:{s:4:"name";s:5:"flash";s:4:"slug";s:5:"flash";s:5:"count";s:3:"297";}s:5:"video";a:3:{s:4:"name";s:5:"video";s:4:"slug";s:5:"video";s:5:"count";s:3:"296";}s:5:"email";a:3:{s:4:"name";s:5:"email";s:4:"slug";s:5:"email";s:5:"count";s:3:"294";}s:9:"shortcode";a:3:{s:4:"name";s:9:"shortcode";s:4:"slug";s:9:"shortcode";s:5:"count";s:3:"293";}s:4:"tags";a:3:{s:4:"name";s:4:"tags";s:4:"slug";s:4:"tags";s:5:"count";s:3:"289";}s:10:"buddypress";a:3:{s:4:"name";s:10:"buddypress";s:4:"slug";s:10:"buddypress";s:5:"count";s:3:"287";}s:10:"javascript";a:3:{s:4:"name";s:10:"javascript";s:4:"slug";s:10:"javascript";s:5:"count";s:3:"286";}s:6:"jquery";a:3:{s:4:"name";s:6:"jquery";s:4:"slug";s:6:"jquery";s:5:"count";s:3:"274";}s:5:"stats";a:3:{s:4:"name";s:5:"stats";s:4:"slug";s:5:"stats";s:5:"count";s:3:"272";}s:4:"link";a:3:{s:4:"name";s:4:"link";s:4:"slug";s:4:"link";s:5:"count";s:3:"268";}s:7:"content";a:3:{s:4:"name";s:7:"content";s:4:"slug";s:7:"content";s:5:"count";s:3:"268";}s:4:"spam";a:3:{s:4:"name";s:4:"spam";s:4:"slug";s:4:"spam";s:5:"count";s:3:"266";}s:7:"comment";a:3:{s:4:"name";s:7:"comment";s:4:"slug";s:7:"comment";s:5:"count";s:3:"263";}s:8:"category";a:3:{s:4:"name";s:8:"category";s:4:"slug";s:8:"category";s:5:"count";s:3:"251";}}}
