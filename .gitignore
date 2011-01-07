@@ -1,2 +1,3 @@
 public/wp-content/uploads
 public/wp-config.php
+config/database.yml
