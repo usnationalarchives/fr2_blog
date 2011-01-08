@@ -23,9 +23,9 @@ get_header(); ?>
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<h1 class="entry-title"><?php the_title(); ?></h1>
 
-					<div class="entry-meta">
+					<p class="metadata">
 						<?php twentyten_posted_on(); ?>
-					</div><!-- .entry-meta -->
+					</p><!-- .entry-meta -->
 
 					<div class="entry-content">
 						<?php the_content(); ?>

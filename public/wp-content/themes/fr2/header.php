@@ -50,3 +50,5 @@
 		<esi:include src="http://fr2-rails.local/layout/header" />
 		
 		<div id="main">
+		  <h1 class="title"><span><?php bloginfo('name')?></span></h1>
+      
