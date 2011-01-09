@@ -8,7 +8,6 @@
  */
 
 get_header(); ?>
-<h1 class="title"><span>Blog</span></h1>
 
 		<div id="container">
 			<div id="content" role="main">
