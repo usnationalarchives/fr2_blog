@@ -481,16 +481,3 @@ function twentyten_posted_in() {
 	);
 }
 endif;
-
-
-
-
-function fr2_blog_routing () {
-	switch($_SERVER['REQUEST_URI']) {
-		case '/blog/footer':
-			include(TEMPLATEPATH . '/footer_page_list.php');
-			exit;
-	}
-}
-
-add_action('template_redirect', 'fr2_blog_routing');

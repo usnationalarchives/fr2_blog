@@ -1,3 +1,9 @@
+<?php
+/**
+ * Template Name: Footer Page List
+ *
+*/
+?>
 <?php foreach(array('policy','learn') as $slug) { 
     $page = get_page_by_path($slug);
     if ($page) { ?>
