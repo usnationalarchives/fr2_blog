@@ -8,6 +8,8 @@
  */
 ?>
 
+<sidebar id="sidebar">
+
 		<div id="primary" class="widget-area" role="complementary">
 			<ul class="xoxo">
 
@@ -54,3 +56,5 @@
 		</div><!-- #secondary .widget-area -->
 
 <?php endif; ?>
+
+</sidebar>

@@ -15,18 +15,18 @@
 
 get_header(); ?>
 
-		<div id="container">
-			<div id="content" role="main">
+<section id="content_area">
+	<?php query_posts('');
+ 	if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-			<?php
-			/* Run the loop to output the posts.
-			 * If you want to overload this in a child theme then include a file
-			 * called loop-index.php and that will be used instead.
-			 */
-			 get_template_part( 'loop', 'index' );
-			?>
-			</div><!-- #content -->
-		</div><!-- #container -->
+ 	<div class="post" id="post-<?php the_ID(); ?>">
+ 			<div><a href="<?php the_permalink();?>"><?php the_title(); ?></a></div><br/>
+ 		  <?php the_content();?>
+ 	</div>
+  <?php endwhile; else: ?>
+  <?php endif; ?>
+</section> 
 
 <?php get_sidebar(); ?>
+
 <?php get_footer(); ?>
