@@ -14,13 +14,16 @@
 
 get_header(); ?>
 
+<!-- TODO HELP-DESIGN need this to be the parent page title -->
+<h1 class="title"><span>Title</span></h1>
+
 		<div id="container">
 			<div id="content" role="main">
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<h1 class="title"><span><?php the_title(); ?></span></h1>
+					<h2><span><?php the_title(); ?></span></h2>
 
 					<div class="entry-content">
 						<?php the_content(); ?>

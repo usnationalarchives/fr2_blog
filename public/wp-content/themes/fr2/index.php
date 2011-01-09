@@ -15,6 +15,8 @@
 
 get_header(); ?>
 
+<h1 class="title"><span><?php bloginfo('name')?></span></h1>
+
 <section id="content_area">
 	<?php query_posts('');
  	if (have_posts()) : while (have_posts()) : the_post(); ?>
