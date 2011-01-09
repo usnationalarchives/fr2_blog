@@ -1,5 +1,5 @@
     </div>
     
-    <esi:include src="http://fr2-rails.local/layout/footer" />
+    <esi:include src="/layout/footer" />
   </body>
 </html>

@@ -24,7 +24,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="keywords" content="government federal register executive rulings notices" />
 	
-		<esi:include src="http://fr2-rails.local/layout/head_content" />
+		<esi:include src="/layout/head_content" />
 		
 		<link rel="profile" href="http://gmpg.org/xfn/11" />
 		<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
@@ -47,7 +47,7 @@
 
 	<body id="wordpress" <?php body_class(); ?>>
 		
-		<esi:include src="http://fr2-rails.local/layout/header" />
+		<esi:include src="/layout/header" />
 		
 		<div id="main">
 		  <h1 class="title"><span><?php bloginfo('name')?></span></h1>

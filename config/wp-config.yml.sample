@@ -1,0 +1,16 @@
+database:
+    name: database_name
+    user: database_user
+    password: database_user_password
+    host: database_host
+    charset: utf8
+    collate:
+wordpress:
+    auth_key: your_token_here
+    secure_auth_key: your_token_here
+    logged_in_key: your_token_here
+    nonce_key: your_token_here
+    auth_salt: your_token_here
+    secure_auth_salt: your_token_here
+    logged_in_salt: your_token_here
+    nonce_salt: your_token_here
