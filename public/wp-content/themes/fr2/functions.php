@@ -159,4 +159,7 @@ function twentyten_widgets_init() {
 /** Register sidebars by running twentyten_widgets_init() on the widgets_init hook. */
 add_action( 'widgets_init', 'twentyten_widgets_init' );
 
+if ( function_exists( 'add_theme_support' ) )
+ add_theme_support('post-thumbnails', array('post','page'));
+
 ?>
