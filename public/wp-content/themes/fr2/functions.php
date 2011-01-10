@@ -23,7 +23,7 @@ function twentyten_setup() {
 	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
 	if ( is_readable( $locale_file ) )
 		require_once( $locale_file );
-
+}
 
 /**
  * Sets the post excerpt length to 40 characters.
@@ -158,3 +158,5 @@ function twentyten_widgets_init() {
 }
 /** Register sidebars by running twentyten_widgets_init() on the widgets_init hook. */
 add_action( 'widgets_init', 'twentyten_widgets_init' );
+
+?>
