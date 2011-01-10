@@ -15,20 +15,14 @@ get_header(); ?>
   <div id="content_area">
     
     <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
-        <nav>
-    				<div id="nav-above" class="nav">
-    					<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'twentyten' ) . '</span> %title' ); ?></div>
-    					<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'twentyten' ) . '</span>' ); ?></div>
-    				</div><!-- #nav-above -->
-        </nav>
-    
+
     		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     		  <div class="article">
     			  <h1 class="entry-title"><?php the_title(); ?></h1>
     			  <p class="metadata">Posted on <?php the_date(); ?> by <?php the_author(); ?></p>
         
             <?php the_content(); ?>
-        
+
           </div>
         </article>
     

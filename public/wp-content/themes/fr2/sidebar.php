@@ -25,7 +25,7 @@
 
 			<li id="archives" class="widget-container">
 				<h3 class="widget-title"><?php _e( 'Archives', 'twentyten' ); ?></h3>
-				<ul>
+				<ul class="bullets">
 					<?php wp_get_archives( 'type=monthly' ); ?>
 				</ul>
 			</li>
