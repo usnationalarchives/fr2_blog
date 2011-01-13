@@ -1,5 +1,5 @@
 Wordpress installation for FR2. Include wordpress core and custom ESI-based theme.
 
-Run `cp config/database.yml.sample config/database.yml` and modify as necessary. 
+Run `cp config/wp-config.yml.sample config/wp-config.yml` and modify as necessary. 
 
 Run rake `wordpress:options:load` to get the current options and `wordpress:options:dump` to dump changes you've made.
