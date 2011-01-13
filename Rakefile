@@ -11,4 +11,9 @@ namespace :wordpress do
       Wordpress::Option.load
     end
   end
+  
+  desc "download the latest wordpress and load it in place"
+  task :update_core do
+    `curl -0 http://www.wodpress.org/latest.tar.gz > latest.tar.gz && gzip -d latest.tar.gz && mv public wordpress && tar -xf latest.tar && mv wordpress public && rm latest.tar`
+  end
 end

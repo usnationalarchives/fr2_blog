@@ -2,6 +2,8 @@ Wordpress installation for FR2. Include wordpress core and custom ESI-based them
 
 Run `cp config/wp-config.yml.sample config/wp-config.yml` and modify as necessary. 
 
-Run rake `wordpress:options:load` to get the current options and `wordpress:options:dump` to dump changes you've made.
+Run `rake wordpress:options:load` to get the current options and `wordpress:options:dump` to dump changes you've made.
 
 Config options that you want to always be loaded for this particular environment can be placed in config/wp-options.local.yml
+
+Run `rake wordpress:update_core` to download the latest version of wordpress and install it locally
