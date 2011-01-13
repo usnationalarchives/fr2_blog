@@ -15,9 +15,15 @@ class Wordpress::Option < Wordpress::Base
   end
   
   def self.load
-    YAML::load(File.open('config/wp-options.yml')).each_pair do |key, attributes|
-      opt = self.find_or_create_by_option_name(key)
-      opt.update_attributes(attributes.merge("blog_id" => 0))
+    yaml_files = ['config/wp-options.yml', 'config/wp-options.local.yml']
+    yaml_files.each do |yaml_file|
+      if File.exists?(yaml_file)
+        YAML::load(File.open(yaml_file)).each_pair do |key, attributes|
+          opt = self.find_or_create_by_option_name(key)
+          opt.update_attributes(attributes.merge("blog_id" => 0))
+        end
+      end
     end
   end
+  
 end
