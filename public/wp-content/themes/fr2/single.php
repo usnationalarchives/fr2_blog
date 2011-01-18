@@ -11,30 +11,64 @@ get_header(); ?>
 
 <h1 class="title"><span><?php bloginfo('name')?></span></h1>
 
-<section>
-  <div id="content_area">
-    
-    <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
+<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
-    		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    		  <div class="article">
-    			  <h1 class="entry-title"><?php the_title(); ?></h1>
-    			  <p class="metadata">Posted on <?php the_date(); ?> by <?php the_author(); ?></p>
+<section>
+  <div id="content_area" class="section">
+      
+      <section>
+      
+    		<article>
+    		  <div class="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
         
-            <?php the_content(); ?>
+            
+            <div class="meta_actions">
+               <?php echo get_avatar( get_the_author_meta( 'ID' ), 40); ?> 
+              <p class="metadata">Posted by <?php the_author(); ?> <span><?php the_date(); ?></span></p>
+            
+              <ul>
+                <li class="bookmark">Bookmark the <a href="<?php get_permalink(); ?>">permalink</a>.</li>
+                <li class="email">Share with a friend</li>
+                <li class="comments"><span><?php 
+                  $comments_count = wp_count_comments($post->ID);
+                  echo $comments_count->approved; ?></span><a href"#comments">Comments</a></li>
+                <li class="categories">
+                  <ul>
+                    <?php 
+                      $post_categories = get_the_category(); 
+                      foreach ($post_categories as $category) {
+                        $link = get_category_link($category->cat_ID);
+                        $name = $category->name;
+                        echo '<li>';
+                        echo '<a href="' . $link .'">' . $name . '</a>';
+                        echo '</li>';
+                      }
+                    ?>
+                  </ul>  
+                </li>
+                
+                <?php
+                  if(get_the_tag_list()) {
+                   echo get_the_tag_list('<li class="tags"><ul><li>','</li><li>','</li></ul></li>');
+                  }
+                ?>
+              </ul>
+            </div>
+            
+            
+            <div class="post_content">
+              <h1 class="entry-title"><?php the_title(); ?></h1>
+      			  
+              <?php the_content(); ?>
+            </div>
 
           </div>
         </article>
-    
-        <nav>
-      		<div id="nav-below" class="nav">
-      			<div class="nav-previous"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'twentyten' ) . '</span> %title' ); ?></div>
-      			<div class="nav-next"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'twentyten' ) . '</span>' ); ?></div>
-      		</div><!-- #nav-below -->
-        </nav>
-			
-    		<?php comments_template( '', true ); ?>
-
+			  
+			  <div class="comment_area">
+    		  <?php comments_template( '', true ); ?>
+        </div>
+        
     <?php endwhile; // end of the loop. ?>
   </div>
 </section>
