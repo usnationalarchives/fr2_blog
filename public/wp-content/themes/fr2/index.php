@@ -34,8 +34,7 @@ get_header(); ?>
       <div class="article" id="post-<?php the_ID(); ?>">        
         <div class="info firstchild">
           <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>
-          <p class="metadata">A Rule by the <a href="/agencies/national-oceanic-and-atmospheric-administration" class="firstchild">National Oceanic and Atmospheric Administration</a> on 
-          <a href="/articles/2010/05/18" class="lastchild"><date datetime="2010-05-18" class="firstchild lastchild"><span datetime="2010-05-18" class="date firstchild lastchild">05/18/2010</span></date></a></p>
+          <p class="metadata">Posted by <?php the_author(); ?> <span><?php the_date(); ?></span></p>
           <p class="summary"><?php the_content();?></p>
         </div>
       </div>    
