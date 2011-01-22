@@ -31,7 +31,7 @@ get_header(); ?>
                 <li class="email">Share with a friend</li>
                 <li class="comments"><span><?php 
                   $comments_count = wp_count_comments($post->ID);
-                  echo $comments_count->approved; ?></span><a href"#comments">Comments</a></li>
+                  echo $comments_count->approved; ?></span><a href="#comments">Read comments</a></li>
                 <li class="categories">
                   <ul>
                     <?php 
@@ -58,7 +58,6 @@ get_header(); ?>
             
             <div class="post_content">
               <h1 class="entry-title"><?php the_title(); ?></h1>
-      			  
               <?php the_content(); ?>
             </div>
 

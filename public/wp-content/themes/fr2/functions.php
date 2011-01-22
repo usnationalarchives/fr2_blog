@@ -159,6 +159,56 @@ function twentyten_widgets_init() {
 /** Register sidebars by running twentyten_widgets_init() on the widgets_init hook. */
 add_action( 'widgets_init', 'twentyten_widgets_init' );
 
+if ( ! function_exists( 'twentyten_comment' ) ) :
+/**
+ * Template for comments and pingbacks.
+ *
+ * To override this walker in a child theme without modifying the comments template
+ * simply create your own twentyten_comment(), and that function will be used instead.
+ *
+ * Used as a callback by wp_list_comments() for displaying the comments.
+ *
+ * @since Twenty Ten 1.0
+ */
+function twentyten_comment( $comment, $args, $depth ) {
+	$GLOBALS['comment'] = $comment;
+	switch ( $comment->comment_type ) :
+		case '' :
+	?>
+	<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+		<div id="comment-<?php comment_ID(); ?>">
+		
+		  <div class="comment-meta">
+        <?php echo get_avatar( $comment, 40 ); ?>
+        <p class="metadata"><?php echo get_comment_author_link(); ?><span><?php echo get_comment_date(); ?> on <?php echo get_comment_time() ?></span></p>
+      </div>
+		
+		
+		<?php if ( $comment->comment_approved == '0' ) : ?>
+			<em><?php _e( 'Your comment is awaiting moderation.', 'twentyten' ); ?></em>
+			<br />
+		<?php endif; ?>
+
+		<div class="comment-body"><?php comment_text(); ?></div>
+
+		<div class="reply">
+			<?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+		</div><!-- .reply -->
+	</div><!-- #comment-##  -->
+
+	<?php
+			break;
+		case 'pingback'  :
+		case 'trackback' :
+	?>
+	<li class="post pingback">
+		<p><?php _e( 'Pingback:', 'twentyten' ); ?> <?php comment_author_link(); ?><?php edit_comment_link( __('(Edit)', 'twentyten'), ' ' ); ?></p>
+	<?php
+			break;
+	endswitch;
+}
+endif;
+
 if ( function_exists( 'add_theme_support' ) )
  add_theme_support('post-thumbnails', array('post','page'));
 
