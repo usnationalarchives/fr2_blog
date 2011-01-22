@@ -128,9 +128,6 @@ gzipcompression:
 hack_file: 
   autoload: "yes"
   option_value: "0"
-home: 
-  autoload: "yes"
-  option_value: http://fr2.local/
 html_type: 
   autoload: "yes"
   option_value: text/html
@@ -224,9 +221,6 @@ show_on_front:
 sidebars_widgets: 
   autoload: "yes"
   option_value: a:8:{s:19:"wp_inactive_widgets";a:0:{}s:19:"primary-widget-area";a:2:{i:0;s:8:"search-2";i:1;s:10:"archives-2";}s:21:"secondary-widget-area";a:0:{}s:24:"first-footer-widget-area";a:0:{}s:25:"second-footer-widget-area";a:0:{}s:24:"third-footer-widget-area";a:0:{}s:25:"fourth-footer-widget-area";a:0:{}s:13:"array_version";i:3;}
-siteurl: 
-  autoload: "yes"
-  option_value: http://fr2.local/
 start_of_week: 
   autoload: "yes"
   option_value: "1"
