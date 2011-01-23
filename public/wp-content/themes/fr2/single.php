@@ -58,18 +58,20 @@ get_header(); ?>
               
             </div>
             
-            
-            <div class="post_content">
-              <h1 class="entry-title"><?php the_title(); ?></h1>
-              <?php the_content(); ?>
-            </div>
+            <div class="post_and_comment_wrapper">
+              <div class="post_content">
+                <h1 class="entry-title"><?php the_title(); ?></h1>
+                <?php the_content(); ?>
+              </div>
 
+              <div class="comment_area">
+          		  <?php comments_template( '', true ); ?>
+              </div>
+            </div>
           </div>
         </article>
 			  
-			  <div class="comment_area">
-    		  <?php comments_template( '', true ); ?>
-        </div>
+
         
     <?php endwhile; // end of the loop. ?>
   </div>
