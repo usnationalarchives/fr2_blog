@@ -14,24 +14,21 @@ get_header(); ?>
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
 <section>
-  <div id="content_area" class="section">
-      
-      <section>
-      
+  <div id="content_area" class="section">      
     		<article>
     		  <div class="article" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
         
             
             <div class="meta_actions">
                <?php echo get_avatar( get_the_author_meta( 'ID' ), 40); ?> 
-              <p class="metadata">Posted by <?php the_author(); ?> <span><?php the_date(); ?></span></p>
+               <p class="metadata">Posted by <?php the_author(); ?> <span><?php the_date(); ?></span></p>
             
               <ul>
                 <li class="bookmark">Bookmark the <a href="<?php get_permalink(); ?>">permalink</a>.</li>
                 <li class="email">Share with a friend</li>
                 <li class="comments"><span><?php 
                   $comments_count = wp_count_comments($post->ID);
-                  echo $comments_count->approved; ?></span><a href="#comments">Read comments</a></li>
+                  echo $comments_count->approved; ?></span><a href="#comments">Read and post comments</a></li>
                 <li class="categories">
                   <ul>
                     <?php 
@@ -53,6 +50,12 @@ get_header(); ?>
                   }
                 ?>
               </ul>
+              
+              <div class="navigation">
+                <a href="<?php echo get_permalink(get_previous_post()->ID) ?>" class="prev"><?php echo get_previous_post()->post_title ?></a>
+                <a href="<?php echo get_permalink(get_next_post()->ID) ?>" class="next"><?php echo get_next_post()->post_title ?></a>
+              </div>
+              
             </div>
             
             
