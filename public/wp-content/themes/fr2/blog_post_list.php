@@ -40,8 +40,9 @@ get_header(); ?>
               <li class="comments"><?php $comments_count = wp_count_comments($post->ID); ?>
               <a href="<?php the_permalink();?>#comments" class="comment<?php echo $comments_count->approved == 0 ? ' none' : '';  ?>">
               <?php 
-                echo $comments_count->approved > 0 ? $comments_count->approved : '+'; 
-              ?></a></li>
+                echo $comments_count->approved > 0 ? '<span>' . $comments_count->approved . '</span> Comments' : '<span>+</span> Add a comment'; 
+              ?></a>
+              </li>
           </div>
         </div>
       </div>    
