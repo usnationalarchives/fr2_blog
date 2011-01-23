@@ -9,11 +9,7 @@ get_header(); ?>
 
 <section>
   <div id="content_area" class="section blog_post_list">
-    
-    <div class="pagination">
-      <?php next_posts_link('&laquo; Older Entries');?>
-      <?php previous_posts_link('Newer Entries &raquo;');?>
-    </div>
+
     
   	<?php 
   	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -21,33 +17,46 @@ get_header(); ?>
   	 'paged' => $paged
   	);
   	query_posts($args);
-   	if (have_posts()) : while (have_posts()) : the_post(); ?>
+  	?>
+  	
+  	<?php if ( $wp_query->max_num_pages > 1 ) : ?>   
+      <div class="blog_pagination top">
+        <div class="older"><?php next_posts_link('Older Entries'); ?></div>
+        <div class="newer"><?php previous_posts_link('Newer Entries'); ?></div>
+      </div>
+    <?php endif; ?>
+
+    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
     <article>
       <div class="article" id="post-<?php the_ID(); ?>">        
         <div class="info firstchild">
-          <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>
+          <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>          
+          <div class="summary"><?php the_excerpt(); ?></div>
           <div class="meta">
-            <p class="metadata">By <?php the_author(); ?> on <?php the_date(); ?>
-              <?php $comments_count = wp_count_comments($post->ID); ?>
+            <ul>
+              <li class="author"><?php the_author(); ?></li>
+              <li class="date"><?php the_date(); ?></li>
+              <li class="comments"><?php $comments_count = wp_count_comments($post->ID); ?>
               <a href="<?php the_permalink();?>#comments" class="comment<?php echo $comments_count->approved == 0 ? ' none' : '';  ?>">
               <?php 
                 echo $comments_count->approved > 0 ? $comments_count->approved : '+'; 
-              ?>
-            </a></p>
+              ?></a></li>
           </div>
-          <div class="summary"><?php the_excerpt(); ?></div>      
         </div>
       </div>    
     </article>
           
     <?php endwhile; else: ?>
     <?php endif; ?>
-  
-    <div class="pagination">
-      <?php next_posts_link('&laquo; Older Entries');?>
-      <?php previous_posts_link('Newer Entries &raquo;');?>
-    </div>
+    
+    <?php if ( $wp_query->max_num_pages > 1 ) : ?>   
+      <div class="blog_pagination bottom">
+        <div class="older"><?php next_posts_link('Older Entries'); ?></div>
+        <div class="newer"><?php previous_posts_link('Newer Entries'); ?></div>
+      </div>
+    <?php endif; ?>
+    
   </div>
 </section> 
 
