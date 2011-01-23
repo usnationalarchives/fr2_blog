@@ -43,7 +43,7 @@ get_header(); ?>
 				
 <?php else : ?>
 				<div id="post-0" class="post no-results not-found">
-					<h2 class="entry-title"><?php _e( 'Nothing Found', 'twentyten' ); ?></h2>
+					<h3 class="entry-title"><?php _e( 'Nothing Found', 'twentyten' ); ?></h3>
 					<article>
             <div class="article" id="post-<?php the_ID(); ?>">        
               <div class="info firstchild">
