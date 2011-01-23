@@ -1,7 +1,7 @@
 --- 
 active_plugins: 
   autoload: "yes"
-  option_value: a:0:{}
+  option_value: a:1:{i:0;s:32:"php-varnish/wordpress-plugin.php";}
 admin_email: 
   autoload: "yes"
   option_value: fr2@criticaljuncture.org
@@ -43,22 +43,22 @@ close_comments_days_old:
   option_value: "14"
 close_comments_for_old_posts: 
   autoload: "yes"
-  option_value: "0"
+  option_value: ""
 comment_max_links: 
   autoload: "yes"
   option_value: "2"
 comment_moderation: 
   autoload: "yes"
-  option_value: "0"
+  option_value: "1"
 comment_order: 
   autoload: "yes"
   option_value: asc
 comment_registration: 
   autoload: "yes"
-  option_value: "0"
+  option_value: ""
 comment_whitelist: 
   autoload: "yes"
-  option_value: "1"
+  option_value: ""
 comments_notify: 
   autoload: "yes"
   option_value: "1"
@@ -193,7 +193,7 @@ page_on_front:
   option_value: "0"
 permalink_structure: 
   autoload: "yes"
-  option_value: /blog/%year%/%monthnum%/%postname%/
+  option_value: /blog/%year%/%monthnum%/%postname%
 ping_sites: 
   autoload: "yes"
   option_value: http://rpc.pingomatic.com/
@@ -238,7 +238,7 @@ template:
   option_value: fr2
 thread_comments: 
   autoload: "yes"
-  option_value: "1"
+  option_value: ""
 thread_comments_depth: 
   autoload: "yes"
   option_value: "5"
@@ -257,12 +257,9 @@ time_format:
 timezone_string: 
   autoload: "yes"
   option_value: ""
-upload_path: 
-  autoload: "yes"
-  option_value: ""
 upload_url_path: 
   autoload: "yes"
-  option_value: ""
+  option_value: /uploads
 uploads_use_yearmonth_folders: 
   autoload: "yes"
   option_value: "1"

@@ -1,0 +1,22 @@
+--- 
+home: 
+  autoload: "yes"
+  option_value: http://fr2.local/
+siteurl: 
+  autoload: "yes"
+  option_value: http://fr2.local/
+upload_path: 
+  autoload: "yes"
+  option_value: /path/to/public/uploads
+wpv_clients: 
+  autoload: "yes"
+  option_value: 127.0.0.1:6082
+wpv_enabled: 
+  autoload: "yes"
+  option_value: "1"
+wpv_host_pattern: 
+  autoload: "yes"
+  option_value: fr2\\.local$
+wpv_secrets: 
+  autoload: "yes"
+  option_value: ""

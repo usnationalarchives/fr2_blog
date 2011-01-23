@@ -1,3 +1,5 @@
 public/wp-content/uploads
 config/wp-config.yml
 config/wp-options.local.yml
+vendor/bundle
+.bundle

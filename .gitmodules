@@ -1,3 +1,6 @@
 [submodule "vendor/php/yaml"]
 	path = vendor/php/yaml
 	url = git://github.com/fabpot/yaml.git
+[submodule "public/wp-content/plugins/php-varnish"]
+	path = public/wp-content/plugins/php-varnish
+	url = git@github.com:criticaljuncture/php-varnish.git
