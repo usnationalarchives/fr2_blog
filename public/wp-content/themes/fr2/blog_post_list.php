@@ -9,9 +9,12 @@ get_header(); ?>
 
 <section>
   <div id="content_area" class="section blog_post_list">
-    <?php next_posts_link('&laquo; Older Entries');?>
-    <?php previous_posts_link('Newer Entries &raquo;');?>
-  
+    
+    <div class="pagination">
+      <?php next_posts_link('&laquo; Older Entries');?>
+      <?php previous_posts_link('Newer Entries &raquo;');?>
+    </div>
+    
   	<?php 
   	$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
   	$args = array(
@@ -24,8 +27,6 @@ get_header(); ?>
       <div class="article" id="post-<?php the_ID(); ?>">        
         <div class="info firstchild">
           <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>
-          <p class="summary"><?php the_content();?></p>
-          
           <div class="meta">
             <p class="metadata">By <?php the_author(); ?> on <?php the_date(); ?>
               <?php $comments_count = wp_count_comments($post->ID); ?>
@@ -35,7 +36,7 @@ get_header(); ?>
               ?>
             </a></p>
           </div>
-          
+          <div class="summary"><?php the_excerpt(); ?></div>      
         </div>
       </div>    
     </article>
@@ -43,8 +44,10 @@ get_header(); ?>
     <?php endwhile; else: ?>
     <?php endif; ?>
   
-    <?php next_posts_link('&laquo; Older Entries');?>
-    <?php previous_posts_link('Newer Entries &raquo;');?>
+    <div class="pagination">
+      <?php next_posts_link('&laquo; Older Entries');?>
+      <?php previous_posts_link('Newer Entries &raquo;');?>
+    </div>
   </div>
 </section> 
 
