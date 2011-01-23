@@ -24,8 +24,18 @@ get_header(); ?>
       <div class="article" id="post-<?php the_ID(); ?>">        
         <div class="info firstchild">
           <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>
-          <p class="metadata">Posted by <?php the_author(); ?> <span><?php the_date(); ?></span></p>
           <p class="summary"><?php the_content();?></p>
+          
+          <div class="meta">
+            <p class="metadata">By <?php the_author(); ?> on <?php the_date(); ?>
+              <?php $comments_count = wp_count_comments($post->ID); ?>
+              <a href="<?php the_permalink();?>#comments" class="comment<?php echo $comments_count->approved == 0 ? ' none' : '';  ?>">
+              <?php 
+                echo $comments_count->approved > 0 ? $comments_count->approved : '+'; 
+              ?>
+            </a></p>
+          </div>
+          
         </div>
       </div>    
     </article>
