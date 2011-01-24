@@ -211,9 +211,7 @@ endif;
 
 if ( function_exists( 'add_theme_support' ) )
  add_theme_support('post-thumbnails', array('post','page'));
-?>
 
-<?php
 function my_excerpt($text)
 {
     $text = strip_shortcodes( $text );
