@@ -219,7 +219,7 @@ function my_excerpt($text)
     $text = apply_filters('the_content', $text);
     $text = str_replace(']]>', ']]&gt;', $text);
     $text = strip_tags($text);
-    $excerpt_length = apply_filters('excerpt_length', 55);
+    $excerpt_length = 30;//apply_filters('excerpt_length', 40);
     //$excerpt_more = apply_filters('excerpt_more', ' ' . '[...]');
     $words = preg_split("/[\n\r\t ]+/", $text, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
     if ( count($words) > $excerpt_length ) {
