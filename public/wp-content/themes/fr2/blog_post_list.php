@@ -5,7 +5,7 @@
 */
 get_header(); ?>
 
-<h1 class="title"><span><?php bloginfo('name')?></span></h1>
+<h1 class="title"><span>Blog</span></h1>
 
 <section>
   <div id="content_area" class="section blog_post_list">
