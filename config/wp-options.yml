@@ -28,7 +28,7 @@ blogdescription:
   option_value: The official Blog of the Federal Register 2.0 Project
 blogname: 
   autoload: "yes"
-  option_value: Blog
+  option_value: Federal Register
 can_compress_scripts: 
   autoload: "yes"
   option_value: "1"
