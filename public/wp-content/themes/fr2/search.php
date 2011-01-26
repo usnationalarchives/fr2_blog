@@ -59,7 +59,6 @@ get_header(); ?>
             <div class="article" id="post-<?php the_ID(); ?>">        
               <div class="info firstchild">
     						<p><?php _e( 'Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'twentyten' ); ?></p>
-    						<?php get_search_form(); ?>
 						  </div>
 						</div>
 				  </article>
