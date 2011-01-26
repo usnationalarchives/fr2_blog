@@ -54,6 +54,7 @@ get_header(); ?>
               <div class="navigation">
                 <a href="<?php echo get_permalink(get_previous_post()->ID) ?>" class="prev"><?php echo get_previous_post()->post_title ?></a>
                 <a href="<?php echo get_permalink(get_next_post()->ID) ?>" class="next"><?php echo get_next_post()->post_title ?></a>
+                <a href="/blog" class="back">Back to blog</a>
               </div>
               
             </div>
