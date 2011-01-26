@@ -22,8 +22,11 @@ foreach($config['database'] as $db_variable => $value) {
 }
 
 # must have this for WP behind a proxy to realize it's on ssl.
-# the front end proxy should set HTTP_X_FORWARDED_PROTO when using ssl.
-$_SERVER['HTTPS'] = $_SERVER['HTTP_X_FORWARDED_PROTO'];
+# the front end proxy should set X-Forwarded-Proto to https when using SSL 
+if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+
 
 /**#@+
  * Authentication Unique Keys and Salts.
