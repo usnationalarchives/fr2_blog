@@ -13,8 +13,19 @@ get_header(); ?>
 
 <section>
   <div id="content_area" class="section blog_post_list">
+    <?php
+    global $wp_query;
+    $total_results = $wp_query->found_posts;
+    ?>
+    
+		<h1 class="page-title"><?php printf( __( $total_results . ' Results for: &nbsp; %s', 'twentyten' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
 
-		<h1 class="page-title"><?php printf( __( 'Search Results for: &nbsp; %s', 'twentyten' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+      <?php if ( $wp_query->max_num_pages > 1 ) : ?>   
+        <div class="blog_pagination top">
+          <div class="older"><?php next_posts_link('Older Entries'); ?></div>
+          <div class="newer"><?php previous_posts_link('Newer Entries'); ?></div>
+        </div>
+      <?php endif; ?>
 
   <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
   
