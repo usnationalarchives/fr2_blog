@@ -15,33 +15,33 @@ get_header(); ?>
 
     <h2 class="page-title"><?php
 				printf( __( 'Category Archives: %s', 'twentyten' ), '<span>' . single_cat_title( '', false ) . '</span>' );
-			?>s
+			?>
     </h2>
     
     <?php
 			$category_description = category_description();
 			if ( ! empty( $category_description ) )
-				echo '<div class="archive-meta">' . $category_description . '</div>';
+				echo '<div class="archieve-meta">' . $category_description . '</div>';
 		?>
 
   	<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
       <article>
         <div class="article" id="post-<?php the_ID(); ?>">        
-          <div class="info firstchild">
+          <div class="excerpt">
             <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>          
             <div class="summary"><?php the_excerpt(); ?></div>
-            <div class="meta">
-              <ul>
-                <li class="author"><?php the_author(); ?></li>
-                <li class="date"><?php the_date(); ?></li>
-                <li class="comments"><?php $comments_count = wp_count_comments($post->ID); ?>
-                <a href="<?php the_permalink();?>#comments" class="comment<?php echo $comments_count->approved == 0 ? ' none' : '';  ?>">
-                <?php 
-                  echo $comments_count->approved > 0 ? '<span>' . $comments_count->approved . '</span> Comments' : '<span>+</span> Add a comment'; 
-                ?></a>
-                </li>
-            </div>
+          </div>
+          <div class="meta">
+            <ul>
+              <li class="author"><?php the_author(); ?></li>
+              <li class="date"><?php the_date(); ?></li>
+              <li class="comments"><?php $comments_count = wp_count_comments($post->ID); ?>
+              <a href="<?php the_permalink();?>#comments" class="comment<?php echo $comments_count->approved == 0 ? ' none' : '';  ?>">
+              <?php 
+                echo $comments_count->approved > 0 ? '<span>' . $comments_count->approved . '</span> Comments' : '<span>+</span> Add a comment'; 
+              ?></a>
+              </li>
           </div>
         </div>    
       </article>
