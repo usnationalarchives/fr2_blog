@@ -10,7 +10,17 @@
 
 <aside>
   <div class="aside" id="sidebar">
+        
     <ul class="widget-list">
+      <li id="disclaimer">
+        <a href="/policy/_legal_status" class="disclaimer">Legal Disclaimer</a>
+      </li>  
+      <li id="subscribe">
+        <div class="aside_box subscribe">  
+          <a href="<?php bloginfo('rss2_url'); ?>" class="rss">Subscribe</a>
+        </div>
+      </li>
+      
 <?php
 	/* When we call the dynamic_sidebar() function, it'll spit out
 	 * the widgets for that widget area. If it instead returns false,
@@ -20,6 +30,7 @@
 	if ( ! dynamic_sidebar( 'primary-widget-area' ) ) : ?>
 	
 			<li id="search" class="widget-container widget_search">
+			  <h3>Search Blog</h3>
 				<?php get_search_form(); ?>
 			</li>
 

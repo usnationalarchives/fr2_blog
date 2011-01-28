@@ -26,6 +26,9 @@ get_header(); ?>
         				<?php printf( __( 'Monthly Archives: <span>%s</span>', 'twentyten' ), get_the_date('F Y') ); ?>
         <?php elseif ( is_year() ) : ?>
         				<?php printf( __( 'Yearly Archives: <span>%s</span>', 'twentyten' ), get_the_date('Y') ); ?>
+          <?php elseif ( is_tag() ) : ?>
+            <?php $tags = get_tags(); ?>
+    				<?php printf( __('Tag Archives: <span>%s</span>', 'twentyten' ), $tags[0]->slug ); ?>
         <?php else : ?>
         				<?php _e( 'Blog Archives', 'twentyten' ); ?>
         <?php endif; ?>
@@ -35,9 +38,10 @@ get_header(); ?>
 
         <article>
           <div class="article" id="post-<?php the_ID(); ?>">        
-            <div class="info firstchild">
-              <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>          
-              <div class="summary"><?php the_excerpt(); ?></div>
+              <div class="excerpt">
+                <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>          
+                <div class="summary"><?php the_excerpt(); ?></div>
+              </div>
               <div class="meta">
                 <ul>
                   <li class="author"><?php the_author(); ?></li>
@@ -49,7 +53,6 @@ get_header(); ?>
                   ?></a>
                   </li>
               </div>
-            </div>
           </div>    
         </article>
       <?php endwhile; else: ?>

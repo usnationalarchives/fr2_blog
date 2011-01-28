@@ -50,13 +50,13 @@ get_header(); ?>
                   }
                 ?>
               </ul>
-              
+              <nav>
               <div class="navigation">
+                <a href="/blog" class="back">Blog Home</a>
                 <a href="<?php echo get_permalink(get_previous_post()->ID) ?>" class="prev"><?php echo get_previous_post()->post_title ?></a>
                 <a href="<?php echo get_permalink(get_next_post()->ID) ?>" class="next"><?php echo get_next_post()->post_title ?></a>
-                <a href="/blog" class="back">Back to blog</a>
               </div>
-              
+              </nav>
             </div>
             
             <div class="post_and_comment_wrapper">

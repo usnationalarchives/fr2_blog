@@ -29,23 +29,22 @@ get_header(); ?>
 
   <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
   
-  
           <article>
             <div class="article" id="post-<?php the_ID(); ?>">        
-              <div class="info firstchild">
+              <div class="excerpt">  
                 <h1 class="firstchild"><a href="<?php the_permalink();?>"><?php the_title(); ?></a></h1>          
                 <div class="summary"><?php the_excerpt(); ?></div>
-                <div class="meta">
-                  <ul>
-                    <li class="author"><?php the_author(); ?></li>
-                    <li class="date"><?php the_date(); ?></li>
-                    <li class="comments"><?php $comments_count = wp_count_comments($post->ID); ?>
-                    <a href="<?php the_permalink();?>#comments" class="comment<?php echo $comments_count->approved == 0 ? ' none' : '';  ?>">
-                    <?php 
-                      echo $comments_count->approved > 0 ? '<span>' . $comments_count->approved . '</span> Comments' : '<span>+</span> Add a comment'; 
-                    ?></a>
-                    </li>
-                </div>
+              </div>  
+              <div class="meta">
+                <ul>
+                  <li class="author"><?php the_author(); ?></li>
+                  <li class="date"><?php the_date(); ?></li>
+                  <li class="comments"><?php $comments_count = wp_count_comments($post->ID); ?>
+                  <a href="<?php the_permalink();?>#comments" class="comment<?php echo $comments_count->approved == 0 ? ' none' : '';  ?>">
+                  <?php 
+                    echo $comments_count->approved > 0 ? '<span>' . $comments_count->approved . '</span> Comments' : '<span>+</span> Add a comment'; 
+                  ?></a>
+                  </li>
               </div>
             </div>    
           </article>
