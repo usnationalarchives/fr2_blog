@@ -27,6 +27,10 @@ if ($_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
     $_SERVER['HTTPS'] = 'on';
 }
 
+# Use the REQUEST_URI that was modified by mod_rewrite, if appropriate
+if ($_SERVER['REDIRECT_REQUEST_URI']) {
+  $_SERVER['REQUEST_URI'] = $_SERVER['REDIRECT_REQUEST_URI'];
+}
 
 /**#@+
  * Authentication Unique Keys and Salts.

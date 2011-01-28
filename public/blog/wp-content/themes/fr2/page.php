@@ -29,7 +29,7 @@ get_header(); ?>
         }
         if ($children) { ?>
         <ul>
-          <?php echo $children; ?>
+          <?php echo preg_replace('/\/blog\//', '/', $children); ?>
         </ul>
       <?php } ?>
     </nav>  

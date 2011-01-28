@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^(layout|learn|policy) /blog/index.php [E=REQUEST_URI:/blog%{REQUEST_URI},L]
+</IfModule>
