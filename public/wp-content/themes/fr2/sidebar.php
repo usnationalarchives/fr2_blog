@@ -16,6 +16,7 @@
         <a href="/policy/_legal_status" class="disclaimer">Legal Disclaimer</a>
       </li>  
       <li id="subscribe">
+        <!-- TODO make this link conditional (see archive.php for examples) -->
         <div class="aside_box subscribe">  
           <a href="<?php bloginfo('rss2_url'); ?>" class="rss">Subscribe</a>
         </div>

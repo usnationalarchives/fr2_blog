@@ -25,7 +25,7 @@ get_header(); ?>
             
               <ul>
                 <li class="bookmark">Bookmark the <a href="<?php get_permalink(); ?>">permalink</a>.</li>
-                <li class="email">Share with a friend</li>
+                <!-- <li class="email">Share with a friend</li> -->
                 <li class="comments"><span><?php 
                   $comments_count = wp_count_comments($post->ID);
                   echo $comments_count->approved; ?></span><a href="#comments">Read and post comments</a></li>
