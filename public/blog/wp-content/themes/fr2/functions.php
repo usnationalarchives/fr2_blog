@@ -232,4 +232,13 @@ function my_excerpt($text)
 
     return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
 }
+
+function fr2_exclude_pages_from_search($query) {
+  if ($query->is_search) {
+    $query->set('post_type', 'post');
+  }
+  return $query;
+}
+
+add_filter('pre_get_posts','fr2_exclude_pages_from_search');
 ?>
