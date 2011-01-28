@@ -13,9 +13,9 @@
  *
  * @package WordPress
  */
-require_once(dirname(__FILE__).'/vendor/php/yaml/lib/sfYamlParser.php');
+require_once(dirname(__FILE__).'/../../vendor/php/yaml/lib/sfYamlParser.php');
 $yaml = new sfYamlParser();
-$config = $yaml->parse(file_get_contents(dirname(__FILE__).'/config/wp-config.yml'));
+$config = $yaml->parse(file_get_contents(dirname(__FILE__).'/../../config/wp-config.yml'));
 
 foreach($config['database'] as $db_variable => $value) {
     define(('DB_' . strtoupper($db_variable)), $value);

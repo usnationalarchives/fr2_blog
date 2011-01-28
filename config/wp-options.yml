@@ -193,7 +193,7 @@ page_on_front:
   option_value: "0"
 permalink_structure: 
   autoload: "yes"
-  option_value: /blog/%year%/%monthnum%/%postname%
+  option_value: /%year%/%monthnum%/%postname%
 ping_sites: 
   autoload: "yes"
   option_value: http://rpc.pingomatic.com/

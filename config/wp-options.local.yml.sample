@@ -1,10 +1,10 @@
 --- 
 home: 
   autoload: "yes"
-  option_value: http://fr2.local/
+  option_value: http://fr2.local/blog/
 siteurl: 
   autoload: "yes"
-  option_value: http://fr2.local/
+  option_value: http://fr2.local/blog/
 upload_path: 
   autoload: "yes"
   option_value: /path/to/public/uploads
