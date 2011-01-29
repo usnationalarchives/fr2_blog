@@ -1,7 +1,7 @@
 --- 
 active_plugins: 
   autoload: "yes"
-  option_value: a:1:{i:0;s:32:"php-varnish/wordpress-plugin.php";}
+  option_value: a:2:{i:0;s:31:"add-meta-tags/add-meta-tags.php";i:1;s:32:"php-varnish/wordpress-plugin.php";}
 admin_email: 
   autoload: "yes"
   option_value: fr2@criticaljuncture.org
@@ -70,7 +70,7 @@ current_theme:
   option_value: FR2
 dashboard_widget_options: 
   autoload: "yes"
-  option_value: a:4:{s:25:"dashboard_recent_comments";a:1:{s:5:"items";i:5;}s:24:"dashboard_incoming_links";a:5:{s:4:"home";s:35:"http://www.fr2.criticaljuncture.org";s:4:"link";s:111:"http://blogsearch.google.com/blogsearch?scoring=d&partner=wordpress&q=link:http://www.fr2.criticaljuncture.org/";s:3:"url";s:130:"http://blogsearch.google.com/blogsearch_feeds?scoring=d&ie=utf-8&num=10&output=rss&partner=wordpress&q=link:http://fr2-blog.local/";s:5:"items";i:10;s:9:"show_date";b:0;}s:17:"dashboard_primary";a:7:{s:4:"link";s:26:"http://wordpress.org/news/";s:3:"url";s:31:"http://wordpress.org/news/feed/";s:5:"title";s:14:"WordPress Blog";s:5:"items";i:2;s:12:"show_summary";i:1;s:11:"show_author";i:0;s:9:"show_date";i:1;}s:19:"dashboard_secondary";a:7:{s:4:"link";s:28:"http://planet.wordpress.org/";s:3:"url";s:33:"http://planet.wordpress.org/feed/";s:5:"title";s:20:"Other WordPress News";s:5:"items";i:5;s:12:"show_summary";i:0;s:11:"show_author";i:0;s:9:"show_date";i:0;}}
+  option_value: a:4:{s:25:"dashboard_recent_comments";a:1:{s:5:"items";i:5;}s:24:"dashboard_incoming_links";a:5:{s:4:"home";s:40:"http://www.fr2.criticaljuncture.org/blog";s:4:"link";s:116:"http://blogsearch.google.com/blogsearch?scoring=d&partner=wordpress&q=link:http://www.fr2.criticaljuncture.org/blog/";s:3:"url";s:130:"http://blogsearch.google.com/blogsearch_feeds?scoring=d&ie=utf-8&num=10&output=rss&partner=wordpress&q=link:http://fr2-blog.local/";s:5:"items";i:10;s:9:"show_date";b:0;}s:17:"dashboard_primary";a:7:{s:4:"link";s:26:"http://wordpress.org/news/";s:3:"url";s:31:"http://wordpress.org/news/feed/";s:5:"title";s:14:"WordPress Blog";s:5:"items";i:2;s:12:"show_summary";i:1;s:11:"show_author";i:0;s:9:"show_date";i:1;}s:19:"dashboard_secondary";a:7:{s:4:"link";s:28:"http://planet.wordpress.org/";s:3:"url";s:33:"http://planet.wordpress.org/feed/";s:5:"title";s:20:"Other WordPress News";s:5:"items";i:5;s:12:"show_summary";i:0;s:11:"show_author";i:0;s:9:"show_date";i:0;}}
 date_format: 
   autoload: "yes"
   option_value: F j, Y
