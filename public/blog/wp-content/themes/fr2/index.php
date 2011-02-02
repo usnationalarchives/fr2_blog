@@ -45,7 +45,7 @@ get_header(); ?>
             ?></a>
             </li>
         </div>
-      </div>    
+      </div>
     </article>
           
     <?php endwhile; else: ?>

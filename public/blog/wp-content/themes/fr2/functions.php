@@ -240,5 +240,50 @@ function fr2_exclude_pages_from_search($query) {
   return $query;
 }
 
+/**
+ * This method will give you the most related rss feed based on the current page request
+ *
+ * @param $type
+ * @return string (feed url)
+ */
+function get_feed_url($type = "rss2_url") {
+ 
+  if (is_category()) {
+    $current = get_the_category();
+    $current = $current[0]->cat_ID;
+    return $url_rss = get_category_feed_link($current);
+  }
+ 
+  if (is_author()) {
+    $current = get_query_var('author_name');
+    $current = get_userdatabylogin($current);
+    $current = $current->ID;
+ 
+    return get_author_feed_link($current,$type);
+  }
+ 
+  if (is_tag()) {
+    $current = get_query_var('tag');
+ 
+    $formaturl = "/feed/";
+    switch ($type) {
+      case "rss_url":
+        $formaturl = "/rss/";
+      break;
+      case "atom_url":
+        $formaturl = "/atom/";
+      break;
+ 
+    }
+    return get_bloginfo("url") . "/tag/" . $current . $formaturl;
+  }
+  
+  if (is_single()) {
+    return get_post_comments_feed_link();
+  }
+  
+  return get_bloginfo($type);
+}
+
 add_filter('pre_get_posts','fr2_exclude_pages_from_search');
 ?>
