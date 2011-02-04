@@ -37,7 +37,7 @@ get_header(); ?>
 </aside>
   
 <section>
-  <div id="content_area" class="section">       
+  <div id="content_area" class="section static_page">       
       <article>
       	<div class="article" id="page-<?php the_ID(); ?>" <?php post_class(); ?>>
           <h1><?php echo get_the_title($post); ?></h1>
