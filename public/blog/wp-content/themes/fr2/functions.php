@@ -242,6 +242,7 @@ function fr2_exclude_pages_from_search($query) {
 
 /**
  * This method will give you the most related rss feed based on the current page request
+ * via: http://www.digitalbase.eu/blog/wordpress-seperate-rss-feed-for-category-author-tag/
  *
  * @param $type
  * @return string (feed url)

@@ -12,14 +12,24 @@
   <div class="aside" id="sidebar">
         
     <ul class="widget-list">
-      <li id="disclaimer">
-        <a href="/policy/_legal_status" class="disclaimer">Legal Disclaimer</a>
-      </li>  
-      
+
+      <li id="search" class="widget-container widget_search"> 
+				<?php get_search_form(); ?>
+      </li>
+
       <li id="subscribe">
         <div class="aside_box subscribe">
             <a href="<?php echo get_feed_url() ?>" class="rss">Subscribe</a>   
         </div>
+      </li>
+      
+      <li id="policy">
+        <a href="/blog/2011/01/about-slug-lines#caveat">Policy</a>
+      </li> 
+      
+      <li id="about">
+        <h3 class="widget-title">About this blog</h3>
+        <p>In The Slug Line, we aim to give you an insider’s view of FederalRegister.gov (FR 2.0) and open up lines of discussion about the Federal Register system.  We will post news updates about the FederalRegister.gov website, create a forum for readers, and also stray into items about our other publications and services on FDsys.gov, OFR.gov, and Archives.gov.</p>
       </li>
       
 <?php
