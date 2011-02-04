@@ -121,7 +121,7 @@ enable_xmlrpc:
   option_value: "0"
 gmt_offset: 
   autoload: "yes"
-  option_value: "0"
+  option_value: ""
 gzipcompression: 
   autoload: "yes"
   option_value: "0"
@@ -220,7 +220,7 @@ show_on_front:
   option_value: posts
 sidebars_widgets: 
   autoload: "yes"
-  option_value: a:8:{s:19:"wp_inactive_widgets";a:0:{}s:19:"primary-widget-area";a:2:{i:0;s:8:"search-2";i:1;s:10:"archives-2";}s:21:"secondary-widget-area";a:0:{}s:24:"first-footer-widget-area";a:0:{}s:25:"second-footer-widget-area";a:0:{}s:24:"third-footer-widget-area";a:0:{}s:25:"fourth-footer-widget-area";a:0:{}s:13:"array_version";i:3;}
+  option_value: a:8:{s:19:"wp_inactive_widgets";a:1:{i:0;s:8:"search-2";}s:19:"primary-widget-area";a:1:{i:0;s:10:"archives-2";}s:21:"secondary-widget-area";a:0:{}s:24:"first-footer-widget-area";a:0:{}s:25:"second-footer-widget-area";a:0:{}s:24:"third-footer-widget-area";a:0:{}s:25:"fourth-footer-widget-area";a:0:{}s:13:"array_version";i:3;}
 start_of_week: 
   autoload: "yes"
   option_value: "1"
@@ -256,7 +256,7 @@ time_format:
   option_value: g:i a
 timezone_string: 
   autoload: "yes"
-  option_value: ""
+  option_value: America/New_York
 upload_url_path: 
   autoload: "yes"
   option_value: /uploads
