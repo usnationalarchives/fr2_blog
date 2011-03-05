@@ -8,7 +8,7 @@
 <h1><a href="/blog">Recent Blog Posts</a></h1>
 <ul>
   <?php
-    $recent_posts = wp_get_recent_posts(3);
+    $recent_posts = fr2_get_recent_published_posts(3);
     $i = 0;
     foreach($recent_posts as $post){
       $post_author = get_userdata($post['post_author']);
