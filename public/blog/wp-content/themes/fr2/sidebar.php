@@ -29,7 +29,7 @@
       
       <li id="about">
         <h3 class="widget-title">About this blog</h3>
-        <p>In the FR Blog, we aim to give you an insider’s view of FederalRegister.gov (FR 2.0) and open up lines of discussion about the Federal Register system.  We will post news updates about the FederalRegister.gov website, create a forum for readers, and also stray into items about our other publications and services on FDsys.gov, OFR.gov, and Archives.gov.</p>
+        <p>In the <?php bloginfo('name')?>, we aim to give you an insider’s view of FederalRegister.gov (FR 2.0) and open up lines of discussion about the Federal Register system.  We will post news updates about the FederalRegister.gov website, create a forum for readers, and also stray into items about our other publications and services on FDsys.gov, OFR.gov, and Archives.gov.</p>
       </li>
       
 <?php
