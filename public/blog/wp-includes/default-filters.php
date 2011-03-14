@@ -31,8 +31,8 @@ foreach ( array( 'pre_term_description', 'pre_link_description', 'pre_link_notes
 	add_filter( $filter, 'wp_filter_kses' );
 }
 
-// Kses only for textarea saves displays
-foreach ( array( 'term_description', 'link_description', 'link_notes', 'user_description' ) as $filter ) {
+// Kses only for textarea admin displays
+foreach ( array( 'term_description', 'link_description', 'link_notes', 'user_description', 'comment_text' ) as $filter ) {
 	add_filter( $filter, 'wp_kses_data' );
 }
 
@@ -72,6 +72,9 @@ foreach ( array( 'pre_term_slug' ) as $filter ) {
 // Keys
 foreach ( array( 'pre_post_type' ) as $filter ) {
 	add_filter( $filter, 'sanitize_user' );
+}
+foreach ( array( 'pre_post_status', 'pre_post_comment_status', 'pre_post_ping_status' ) as $filter ) {
+	add_filter( $filter, 'sanitize_key' );
 }
 
 // Places to balance tags on input

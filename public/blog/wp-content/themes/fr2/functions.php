@@ -287,4 +287,20 @@ function get_feed_url($type = "rss2_url") {
 }
 
 add_filter('pre_get_posts','fr2_exclude_pages_from_search');
+
+function fr2_get_recent_published_posts($num = 10) {
+	global $wpdb;
+
+	// Set the limit clause, if we got a limit
+	$num = (int) $num;
+	if ( $num ) {
+		$limit = "LIMIT $num";
+	}
+
+	$sql = "SELECT * FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'publish' ORDER BY post_date DESC $limit";
+	$result = $wpdb->get_results($sql, ARRAY_A);
+
+	return $result ? $result : array();
+}
+
 ?>
