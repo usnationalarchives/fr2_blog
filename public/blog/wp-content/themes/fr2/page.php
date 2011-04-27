@@ -20,18 +20,30 @@ get_header(); ?>
 <aside>
   <div class="aside" id="subnav">
     <nav>
-      <?php
-        if($post->post_parent) {
-          $children = wp_list_pages("title_li=&child_of=".$post->post_parent."&echo=0");
+        <?php
+        if(!$post->post_parent){
+        	// will display the subpages of this top level page
+        	$children = wp_list_pages("title_li=&child_of=".$post->ID."&echo=0");
+        }else{
+        	// diplays only the subpages of parent level
+        	//$children = wp_list_pages("title_li=&child_of=".$post->post_parent."&echo=0");
+
+        	if($post->ancestors)
+        	{
+        		// now you can get the the top ID of this page
+        		// wp is putting the ids DESC, thats why the top level ID is the last one
+        		$ancestors = end($post->ancestors);
+        		$children = wp_list_pages("title_li=&child_of=".$ancestors."&echo=0");
+        		// you will always get the whole subpages list
+        	}
         }
-        else {
-          $children = wp_list_pages("title_li=&child_of=".$post->ID."&echo=0");
-        }
+
         if ($children) { ?>
-        <ul>
-          <?php echo preg_replace('/\/blog\//', '/', $children); ?>
-        </ul>
-      <?php } ?>
+        	<ul>
+        		<?php echo $children; ?>
+        	</ul>
+        <?php } ?>
+
     </nav>  
   </div>  
 </aside>

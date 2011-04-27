@@ -6,10 +6,13 @@
 			 */
 			global $page, $paged;
 
-			wp_title( '|', true, 'right' );
+			if (is_page()) {
+        echo "Federal Register";
+      } else {
+			  bloginfo( 'name' );
+      }
 
-			// Add the blog name.
-			bloginfo( 'name' );
+			wp_title( '|', true, 'left' );
 
 			// Add the blog description for the home/front page.
 			$site_description = get_bloginfo( 'description', 'display' );
