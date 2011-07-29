@@ -9,7 +9,7 @@
 
 get_header(); ?>
 
-<h1 class="title"><span><?php bloginfo('name')?></span></h1>
+<div class="title"><span><?php bloginfo('name')?></span></divs>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 

@@ -14,7 +14,7 @@
 
 get_header(); ?>
 
-<h1 class="title"><span><?php echo get_the_title($post->post_parent); ?></span></h1>
+<div class="title"><span><?php echo get_the_title($post->post_parent); ?></span></div>
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>  
 <aside>
