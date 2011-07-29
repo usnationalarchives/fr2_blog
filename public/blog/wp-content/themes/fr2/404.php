@@ -7,7 +7,7 @@
 
 get_header(); ?>
 
-<h1 class="title"><span>404 Not Found</span></h1>
+<div class="title"><span>404 Not Found</span></div>
 
 <h1>The page you were looking for doesn't exist.</h1>
 <h2>You may have mistyped the address or the page may have moved.</h2>

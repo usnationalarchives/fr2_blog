@@ -9,7 +9,7 @@
 
 get_header(); ?>
 
-<h1 class="title"><span><?php bloginfo('name')?> Search</span></h1>
+<div class="title"><span><?php bloginfo('name')?> Search</span></div>
 
 <section>
   <div id="content_area" class="section blog_post_list">

@@ -14,7 +14,7 @@
 
 get_header(); ?>
 
-<h1 class="title"><span><?php bloginfo('name')?> Archives</span></h1>
+<div class="title"><span><?php bloginfo('name')?> Archives</span></div>
 
   <section>
     <div class="section blog_post_list" id="content_area">
