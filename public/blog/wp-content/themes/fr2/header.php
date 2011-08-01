@@ -47,6 +47,11 @@
 			 */
 			wp_head();
 		?>
+                <!-- Make admin bar go away -->
+                <style type="text/css">
+                    html {margin-top:0 !important}
+                    * html body { margin-top: 0 !important}
+                </style>
 	</head>
 
 	<body id="wordpress" <?php body_class(); ?>>
