@@ -16,12 +16,8 @@
     <li>  
       <h2><?php echo '<a href="' .get_permalink($post["ID"]) . '" title="Look '.$post["post_title"].'" >' .   $post["post_title"].'</a>' ?></h2>
       <p class="metadata">Posted by <?php echo $post_author->display_name ?> on <?php echo mysql2date(get_option('date_format'), $post['post_date']) ?></p>
-      <?php if($i == 0) { ?>
-        <p><?php echo my_excerpt( $post["post_content"] ) . '... <a href="'. get_permalink($post["ID"]) . '">Continue reading <span class="meta-nav">&rarr;</span></a>' ?></p>
-      <?php 
-        }
-        $i++;
-      ?>
+      
+      <p class="post_content <?php if($i != 0) { ?>hide<?php } $i++; ?>"><?php echo my_excerpt( $post["post_content"] ) . '... <a href="'. get_permalink($post["ID"]) . '">Continue reading <span class="meta-nav">&rarr;</span></a>' ?></p>
   </li>
   <?php 
     }
