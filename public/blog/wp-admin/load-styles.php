@@ -21,7 +21,6 @@ function __() {}
  */
 function _x() {}
 
-
 /**
  * @ignore
  */
@@ -125,7 +124,12 @@ foreach( $load as $handle ) {
 		$content .= get_file($rtl_path) . "\n";
 	}
 
-	$out .= str_replace( '../images/', 'images/', $content );
+	if ( strpos( $style->src, '/wp-includes/css/' ) === 0 ) {
+		$content = str_replace( '../images/', '../wp-includes/images/', $content );
+		$out .= str_replace( '../js/tinymce/', '../wp-includes/js/tinymce/', $content );
+	} else {
+		$out .= str_replace( '../images/', 'images/', $content );
+	}
 }
 
 header('Content-Type: text/css');

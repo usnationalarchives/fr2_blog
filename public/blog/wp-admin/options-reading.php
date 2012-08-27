@@ -41,11 +41,16 @@ function add_js() {
 }
 add_action('admin_head', 'add_js');
 
-add_contextual_help($current_screen,
-	'<p>' . __('This screen contains the settings that affect the display of your content.') . '</p>' .
-	'<p>' . sprintf(__('You can choose what&#8217;s displayed on the front page of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static home page, you first need to create two <a href="%s">Pages</a>. One will become the front page, and the other will be where your posts are displayed.'), 'post-new.php?post_type=page') . '</p>' .
-	'<p>' . __('You can also control the display of your content in RSS feeds, including the maximum numbers of posts to display, whether to show full text or a summary, and the character set encoding.') . '</p>' .
-	'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>' .
+get_current_screen()->add_help_tab( array(
+	'id'      => 'overview',
+	'title'   => __('Overview'),
+	'content' => '<p>' . __('This screen contains the settings that affect the display of your content.') . '</p>' .
+		'<p>' . sprintf(__('You can choose what&#8217;s displayed on the front page of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static home page, you first need to create two <a href="%s">Pages</a>. One will become the front page, and the other will be where your posts are displayed.'), 'post-new.php?post_type=page') . '</p>' .
+		'<p>' . __('You can also control the display of your content in RSS feeds, including the maximum numbers of posts to display, whether to show full text or a summary, and the character set encoding.') . '</p>' .
+		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
+) );
+
+get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __('For more information:') . '</strong></p>' .
 	'<p>' . __('<a href="http://codex.wordpress.org/Settings_Reading_Screen" target="_blank">Documentation on Reading Settings</a>') . '</p>' .
 	'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
@@ -100,17 +105,17 @@ else :
 <tr valign="top">
 <th scope="row"><label for="posts_per_page"><?php _e( 'Blog pages show at most' ); ?></label></th>
 <td>
-<input name="posts_per_page" type="text" id="posts_per_page" value="<?php form_option( 'posts_per_page' ); ?>" class="small-text" /> <?php _e( 'posts' ); ?>
+<input name="posts_per_page" type="number" step="1" min="1" id="posts_per_page" value="<?php form_option( 'posts_per_page' ); ?>" class="small-text" /> <?php _e( 'posts' ); ?>
 </td>
 </tr>
 <tr valign="top">
 <th scope="row"><label for="posts_per_rss"><?php _e( 'Syndication feeds show the most recent' ); ?></label></th>
-<td><input name="posts_per_rss" type="text" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /> <?php _e( 'items' ); ?></td>
+<td><input name="posts_per_rss" type="number" step="1" min="1" id="posts_per_rss" value="<?php form_option( 'posts_per_rss' ); ?>" class="small-text" /> <?php _e( 'items' ); ?></td>
 </tr>
 <tr valign="top">
 <th scope="row"><?php _e( 'For each article in a feed, show' ); ?> </th>
 <td><fieldset><legend class="screen-reader-text"><span><?php _e( 'For each article in a feed, show' ); ?> </span></legend>
-<p><label><input name="rss_use_excerpt"  type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
+<p><label><input name="rss_use_excerpt" type="radio" value="0" <?php checked( 0, get_option( 'rss_use_excerpt' ) ); ?>	/> <?php _e( 'Full text' ); ?></label><br />
 <label><input name="rss_use_excerpt" type="radio" value="1" <?php checked( 1, get_option( 'rss_use_excerpt' ) ); ?> /> <?php _e( 'Summary' ); ?></label></p>
 </fieldset></td>
 </tr>
@@ -118,7 +123,7 @@ else :
 <tr valign="top">
 <th scope="row"><label for="blog_charset"><?php _e( 'Encoding for pages and feeds' ); ?></label></th>
 <td><input name="blog_charset" type="text" id="blog_charset" value="<?php form_option( 'blog_charset' ); ?>" class="regular-text" />
-<span class="description"><?php _e( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended, if you are adventurous there are some <a href="http://en.wikipedia.org/wiki/Character_set">other encodings</a>)' ); ?></span></td>
+<p class="description"><?php _e( 'The <a href="http://codex.wordpress.org/Glossary#Character_set">character encoding</a> of your site (UTF-8 is recommended, if you are adventurous there are some <a href="http://en.wikipedia.org/wiki/Character_set">other encodings</a>)' ); ?></p></td>
 </tr>
 <?php do_settings_fields( 'reading', 'default' ); ?>
 </table>

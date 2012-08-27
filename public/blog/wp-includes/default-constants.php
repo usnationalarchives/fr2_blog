@@ -49,7 +49,8 @@ function wp_initial_constants( ) {
 	if ( !defined('WP_DEBUG') )
 		define( 'WP_DEBUG', false );
 
-	// Add define('WP_DEBUG_DISPLAY', false); to wp-config.php use the globally configured setting for display_errors and not force errors to be displayed.
+	// Add define('WP_DEBUG_DISPLAY', null); to wp-config.php use the globally configured setting for
+	// display_errors and not force errors to be displayed. Use false to force display_errors off.
 	if ( !defined('WP_DEBUG_DISPLAY') )
 		define( 'WP_DEBUG_DISPLAY', true );
 
@@ -104,7 +105,7 @@ function wp_plugin_directory_constants( ) {
 	 * @deprecated
 	 */
 	if ( !defined('PLUGINDIR') )
-		define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH.  For back compat.
+		define( 'PLUGINDIR', 'wp-content/plugins' ); // Relative to ABSPATH. For back compat.
 
 	/**
 	 * Allows for the mu-plugins directory to be moved from the default location.
@@ -129,7 +130,7 @@ function wp_plugin_directory_constants( ) {
 	 * @deprecated
 	 */
 	if ( !defined( 'MUPLUGINDIR' ) )
-		define( 'MUPLUGINDIR', 'wp-content/mu-plugins' ); // Relative to ABSPATH.  For back compat.
+		define( 'MUPLUGINDIR', 'wp-content/mu-plugins' ); // Relative to ABSPATH. For back compat.
 }
 
 /**
@@ -139,8 +140,6 @@ function wp_plugin_directory_constants( ) {
  * @since 3.0.0
  */
 function wp_cookie_constants( ) {
-	global $wp_default_secret_key;
-
 	/**
 	 * Used to guarantee unique hash cookies
 	 * @since 1.5
@@ -152,12 +151,6 @@ function wp_cookie_constants( ) {
 		else
 			define( 'COOKIEHASH', '' );
 	}
-
-	/**
-	 * Should be exactly the same as the default value of SECRET_KEY in wp-config-sample.php
-	 * @since 2.5.0
-	 */
-	$wp_default_secret_key = 'put your unique phrase here';
 
 	/**
 	 * @since 2.0.0
@@ -267,6 +260,12 @@ function wp_functionality_constants( ) {
 
 	if ( !defined('WP_POST_REVISIONS') )
 		define('WP_POST_REVISIONS', true);
+
+	/**
+	 * @since 3.3.0
+	 */
+	if ( !defined( 'WP_CRON_LOCK_TIMEOUT' ) )
+		define('WP_CRON_LOCK_TIMEOUT', 60);  // In seconds
 }
 
 /**
@@ -297,5 +296,3 @@ function wp_templating_constants( ) {
 		define( 'WP_DEFAULT_THEME', 'twentyeleven' );
 
 }
-
-?>
