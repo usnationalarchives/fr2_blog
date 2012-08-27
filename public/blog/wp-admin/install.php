@@ -9,14 +9,14 @@
 // Sanity check.
 if ( false ) {
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" >
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Error: PHP is not running</title>
 </head>
 <body>
-	<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+	<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png?ver=20120216" /></h1>
 	<h2>Error: PHP is not running</h2>
 	<p>WordPress requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p>
 </body>
@@ -41,7 +41,7 @@ require_once( dirname( __FILE__ ) . '/includes/upgrade.php' );
 /** Load wpdb */
 require_once(dirname(dirname(__FILE__)) . '/wp-includes/wp-db.php');
 
-$step = isset( $_GET['step'] ) ? $_GET['step'] : 0;
+$step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
 
 /**
  * Display install header.
@@ -53,15 +53,15 @@ $step = isset( $_GET['step'] ) ? $_GET['step'] : 0;
 function display_header() {
 	header( 'Content-Type: text/html; charset=utf-8' );
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php _e( 'WordPress &rsaquo; Installation' ); ?></title>
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
-<body>
-<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png" /></h1>
+<body<?php if ( is_rtl() ) echo ' class="rtl"'; ?>>
+<h1 id="logo"><img alt="WordPress" src="images/wordpress-logo.png?ver=20120216" /></h1>
 
 <?php
 } // end display_header()
@@ -130,7 +130,8 @@ function display_setup_form( $error = null ) {
 			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
 		<tr>
-			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow my site to appear in search engines like Google and Technorati.' ); ?></label></td>
+			<th scope="row"><label for="blog_public"><?php _e( 'Privacy' ); ?></label></th>
+			<td colspan="2"><label><input type="checkbox" name="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow search engines to index this site.' ); ?></label></td>
 		</tr>
 	</table>
 	<p class="step"><input type="submit" name="Submit" value="<?php esc_attr_e( 'Install WordPress' ); ?>" class="button" /></p>
@@ -150,15 +151,20 @@ $php_compat     = version_compare( $php_version, $required_php_version, '>=' );
 $mysql_compat   = version_compare( $mysql_version, $required_mysql_version, '>=' ) || file_exists( WP_CONTENT_DIR . '/db.php' );
 
 if ( !$mysql_compat && !$php_compat )
-	$compat = sprintf( __('You cannot install because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.'), $wp_version, $required_php_version, $required_mysql_version, $php_version, $mysql_version );
+	$compat = sprintf( __( 'You cannot install because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s.' ), $wp_version, $required_php_version, $required_mysql_version, $php_version, $mysql_version );
 elseif ( !$php_compat )
-	$compat = sprintf( __('You cannot install because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher. You are running version %3$s.'), $wp_version, $required_php_version, $php_version );
+	$compat = sprintf( __( 'You cannot install because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires PHP version %2$s or higher. You are running version %3$s.' ), $wp_version, $required_php_version, $php_version );
 elseif ( !$mysql_compat )
-	$compat = sprintf( __('You cannot install because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s.'), $wp_version, $required_mysql_version, $mysql_version );
+	$compat = sprintf( __( 'You cannot install because <a href="http://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s.' ), $wp_version, $required_mysql_version, $mysql_version );
 
 if ( !$mysql_compat || !$php_compat ) {
 	display_header();
-	die('<h1>' . __('Insufficient Requirements') . '</h1><p>' . $compat . '</p></body></html>');
+	die( '<h1>' . __( 'Insufficient Requirements' ) . '</h1><p>' . $compat . '</p></body></html>' );
+}
+
+if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
+	display_header();
+	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'Your <code>wp-config.php</code> file has an empty database table prefix, which is not supported.' ) . '</p></body></html>' );
 }
 
 switch($step) {
@@ -166,7 +172,7 @@ switch($step) {
 	case 1: // Step 1, direct link.
 	  display_header();
 ?>
-<h1><?php _e( 'Welcome' ); ?></h1>
+<h1><?php _ex( 'Welcome', 'Howdy' ); ?></h1>
 <p><?php printf( __( 'Welcome to the famous five minute WordPress installation process! You may want to browse the <a href="%s">ReadMe documentation</a> at your leisure. Otherwise, just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ), '../readme.html' ); ?></p>
 
 <h1><?php _e( 'Information needed' ); ?></h1>
@@ -206,7 +212,7 @@ switch($step) {
 			$error = true;
 		} elseif ( ! is_email( $admin_email ) ) {
 			// TODO: poka-yoke
-			display_setup_form( __( 'that isn&#8217;t a valid e-mail address.  E-mail addresses look like: <code>username@example.com</code>' ) );
+			display_setup_form( __( 'that isn&#8217;t a valid e-mail address. E-mail addresses look like: <code>username@example.com</code>' ) );
 			$error = true;
 		}
 
@@ -220,10 +226,10 @@ switch($step) {
 
 <p><?php _e( 'WordPress has been installed. Were you expecting more steps? Sorry to disappoint.' ); ?></p>
 
-<table class="form-table">
+<table class="form-table install-success">
 	<tr>
 		<th><?php _e( 'Username' ); ?></th>
-		<td><code><?php echo esc_html( sanitize_user( $user_name, true ) ); ?></code></td>
+		<td><?php echo esc_html( sanitize_user( $user_name, true ) ); ?></td>
 	</tr>
 	<tr>
 		<th><?php _e( 'Password' ); ?></th>
@@ -243,22 +249,6 @@ switch($step) {
 }
 ?>
 <script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
-<script type="text/javascript" src="../wp-includes/js/jquery/jquery.js"></script>
-<script type="text/javascript" src="js/password-strength-meter.js"></script>
-<script type="text/javascript" src="js/user-profile.js"></script>
-<script type="text/javascript" src="../wp-includes/js/l10n.js"></script>
-<script type='text/javascript'>
-/* <![CDATA[ */
-var pwsL10n = {
- empty: "<?php echo esc_js( __( 'Strength indicator' ) ); ?>",
- short: "<?php echo esc_js( __( 'Very weak' ) ); ?>",
- bad: "<?php echo esc_js( __( 'Weak' ) ); ?>",
- good: "<?php echo esc_js( _x( 'Medium', 'password strength' ) ); ?>",
- strong: "<?php echo esc_js( __( 'Strong' ) ); ?>",
- mismatch: "<?php echo esc_js( __( 'Mismatch' ) ); ?>"
-};
-try{convertEntities(pwsL10n);}catch(e){};
-/* ]]> */
-</script>
+<?php wp_print_scripts( 'user-profile' ); ?>
 </body>
 </html>

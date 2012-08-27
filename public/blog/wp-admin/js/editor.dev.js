@@ -1,35 +1,83 @@
 
-jQuery(document).ready(function($){
-	var h = wpCookies.getHash('TinyMCE_content_size');
-
-	if ( getUserSetting( 'editor' ) == 'html' ) {
-		if ( h )
-			$('#content').css('height', h.ch - 15 + 'px');
-	} else {
-		if ( typeof tinyMCE != 'object' ) {
-			$('#content').css('color', '#000');
-		} else {
-			$('#quicktags').hide();
-		}
-	}
-});
-
 var switchEditors = {
 
-	mode : '',
+	switchto: function(el) {
+		var aid = el.id, l = aid.length, id = aid.substr(0, l - 5), mode = aid.substr(l - 4);
 
-	I : function(e) {
-		return document.getElementById(e);
+		this.go(id, mode);
+	},
+
+	go: function(id, mode) { // mode can be 'html', 'tmce', or 'toggle'
+		id = id || 'content';
+		mode = mode || 'toggle';
+
+		var t = this, ed = tinyMCE.get(id), wrap_id, txtarea_el, dom = tinymce.DOM;
+
+		wrap_id = 'wp-'+id+'-wrap';
+		txtarea_el = dom.get(id);
+
+		if ( 'toggle' == mode ) {
+			if ( ed && !ed.isHidden() )
+				mode = 'html';
+			else
+				mode = 'tmce';
+		}
+
+		if ( 'tmce' == mode || 'tinymce' == mode ) {
+			if ( ed && ! ed.isHidden() )
+				return false;
+
+			if ( typeof(QTags) != 'undefined' )
+				QTags.closeAllTags(id);
+
+			if ( tinyMCEPreInit.mceInit[id] && tinyMCEPreInit.mceInit[id].wpautop )
+				txtarea_el.value = t.wpautop( txtarea_el.value );
+
+			if ( ed ) {
+				ed.show();
+			} else {
+				ed = new tinymce.Editor(id, tinyMCEPreInit.mceInit[id]);
+				ed.render();
+			}
+
+			dom.removeClass(wrap_id, 'html-active');
+			dom.addClass(wrap_id, 'tmce-active');
+			setUserSetting('editor', 'tinymce');
+
+		} else if ( 'html' == mode ) {
+
+			if ( ed && ed.isHidden() )
+				return false;
+
+			if ( ed ) {
+				txtarea_el.style.height = ed.getContentAreaContainer().offsetHeight + 20 + 'px';
+				ed.hide();
+			}
+
+			dom.removeClass(wrap_id, 'tmce-active');
+			dom.addClass(wrap_id, 'html-active');
+			setUserSetting('editor', 'html');
+		}
+		return false;
 	},
 
 	_wp_Nop : function(content) {
-		var blocklist1, blocklist2;
+		var blocklist1, blocklist2, preserve_linebreaks = false, preserve_br = false;
 
 		// Protect pre|script tags
 		if ( content.indexOf('<pre') != -1 || content.indexOf('<script') != -1 ) {
+			preserve_linebreaks = true;
 			content = content.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
-				a = a.replace(/<br ?\/?>(\r\n|\n)?/g, '<wp_temp>');
-				return a.replace(/<\/?p( [^>]*)?>(\r\n|\n)?/g, '<wp_temp>');
+				a = a.replace(/<br ?\/?>(\r\n|\n)?/g, '<wp-temp-lb>');
+				return a.replace(/<\/?p( [^>]*)?>(\r\n|\n)?/g, '<wp-temp-lb>');
+			});
+		}
+
+		// keep <br> tags inside captions and remove line breaks
+		if ( content.indexOf('[caption') != -1 ) {
+			preserve_br = true;
+			content = content.replace(/\[caption[\s\S]+?\[\/caption\]/g, function(a) {
+				return a.replace(/<br([^>]*)>/g, '<wp-temp-br$1>').replace(/[\r\n\t]+/, '');
 			});
 		}
 
@@ -80,62 +128,19 @@ var switchEditors = {
 		content = content.replace(/[\s\u00a0]+$/, '');
 
 		// put back the line breaks in pre|script
-		content = content.replace(/<wp_temp>/g, '\n');
+		if ( preserve_linebreaks )
+			content = content.replace(/<wp-temp-lb>/g, '\n');
+
+		// and the <br> tags in captions
+		if ( preserve_br )
+			content = content.replace(/<wp-temp-br([^>]*)>/g, '<br$1>');
 
 		return content;
 	},
 
-	go : function(id, mode) {
-		id = id || 'content';
-		mode = mode || this.mode || '';
-
-		var ed, qt = this.I('quicktags'), H = this.I('edButtonHTML'), P = this.I('edButtonPreview'), ta = this.I(id);
-
-		try { ed = tinyMCE.get(id); }
-		catch(e) { ed = false; }
-
-		if ( 'tinymce' == mode ) {
-			if ( ed && ! ed.isHidden() )
-				return false;
-
-			setUserSetting( 'editor', 'tinymce' );
-			this.mode = 'html';
-
-			P.className = 'active';
-			H.className = '';
-			edCloseAllTags(); // :-(
-			qt.style.display = 'none';
-
-			ta.style.color = '#FFF';
-			ta.value = this.wpautop(ta.value);
-
-			try {
-				if ( ed )
-					ed.show();
-				else
-					tinyMCE.execCommand("mceAddControl", false, id);
-			} catch(e) {}
-
-			ta.style.color = '#000';
-		} else {
-			setUserSetting( 'editor', 'html' );
-			ta.style.color = '#000';
-			this.mode = 'tinymce';
-			H.className = 'active';
-			P.className = '';
-
-			if ( ed && !ed.isHidden() ) {
-				ta.style.height = ed.getContentAreaContainer().offsetHeight + 24 + 'px';
-				ed.hide();
-			}
-
-			qt.style.display = 'block';
-		}
-		return false;
-	},
-
 	_wp_Autop : function(pee) {
-		var blocklist = 'table|thead|tfoot|tbody|tr|td|th|caption|col|colgroup|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]|fieldset|legend|hr|noscript|menu|samp|header|footer|article|section|hgroup|nav|aside|details|summary';
+		var preserve_linebreaks = false, preserve_br = false,
+			blocklist = 'table|thead|tfoot|tbody|tr|td|th|caption|col|colgroup|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|math|p|h[1-6]|fieldset|legend|hr|noscript|menu|samp|header|footer|article|section|hgroup|nav|aside|details|summary';
 
 		if ( pee.indexOf('<object') != -1 ) {
 			pee = pee.replace(/<object[\s\S]+?<\/object>/g, function(a){
@@ -149,8 +154,24 @@ var switchEditors = {
 
 		// Protect pre|script tags
 		if ( pee.indexOf('<pre') != -1 || pee.indexOf('<script') != -1 ) {
+			preserve_linebreaks = true;
 			pee = pee.replace(/<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function(a) {
-				return a.replace(/(\r\n|\n)/g, '<wp_temp_br>');
+				return a.replace(/(\r\n|\n)/g, '<wp-temp-lb>');
+			});
+		}
+
+		// keep <br> tags inside captions and convert line breaks
+		if ( pee.indexOf('[caption') != -1 ) {
+			preserve_br = true;
+			pee = pee.replace(/\[caption[\s\S]+?\[\/caption\]/g, function(a) {
+				// keep existing <br>
+				a = a.replace(/<br([^>]*)>/g, '<wp-temp-br$1>');
+				// no line breaks inside HTML tags
+				a = a.replace(/<[a-zA-Z0-9]+( [^<>]+)?>/g, function(b){
+					return b.replace(/[\r\n\t]+/, ' ');
+				});
+				// convert remaining line breaks to <br>
+				return a.replace(/\s*\n\s*/g, '<wp-temp-br />');
 			});
 		}
 
@@ -182,26 +203,38 @@ var switchEditors = {
 		});
 
 		// put back the line breaks in pre|script
-		pee = pee.replace(/<wp_temp_br>/g, '\n');
+		if ( preserve_linebreaks )
+			pee = pee.replace(/<wp-temp-lb>/g, '\n');
+
+		if ( preserve_br )
+			pee = pee.replace(/<wp-temp-br([^>]*)>/g, '<br$1>');
 
 		return pee;
 	},
 
 	pre_wpautop : function(content) {
-		var t = this, o = { o: t, data: content, unfiltered: content };
+		var t = this, o = { o: t, data: content, unfiltered: content },
+			q = typeof(jQuery) != 'undefined';
 
-		jQuery('body').trigger('beforePreWpautop', [o]);
+		if ( q )
+			jQuery('body').trigger('beforePreWpautop', [o]);
 		o.data = t._wp_Nop(o.data);
-		jQuery('body').trigger('afterPreWpautop', [o]);
+		if ( q )
+			jQuery('body').trigger('afterPreWpautop', [o]);
+
 		return o.data;
 	},
 
 	wpautop : function(pee) {
-		var t = this, o = { o: t, data: pee, unfiltered: pee };
+		var t = this, o = { o: t, data: pee, unfiltered: pee },
+			q = typeof(jQuery) != 'undefined';
 
-		jQuery('body').trigger('beforeWpautop', [o]);
+		if ( q )
+			jQuery('body').trigger('beforeWpautop', [o]);
 		o.data = t._wp_Autop(o.data);
-		jQuery('body').trigger('afterWpautop', [o]);
+		if ( q )
+			jQuery('body').trigger('afterWpautop', [o]);
+
 		return o.data;
 	}
-};
+}

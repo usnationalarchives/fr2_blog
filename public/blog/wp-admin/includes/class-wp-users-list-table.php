@@ -112,7 +112,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 			$name = translate_user_role( $name );
 			/* translators: User role name with count */
-			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, $avail_roles[$this_role] );
+			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles[$this_role] ) );
 			$role_links[$this_role] = "<a href='" . esc_url( add_query_arg( 'role', $this_role, $url ) ) . "'$class>$name</a>";
 		}
 
@@ -209,9 +209,9 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 2.1.0
 	 *
 	 * @param object $user_object
-	 * @param string $style Optional. Attributes added to the TR element.  Must be sanitized.
+	 * @param string $style Optional. Attributes added to the TR element. Must be sanitized.
 	 * @param string $role Key for the $wp_roles array.
-	 * @param int $numposts Optional. Post count to display for this user.  Defaults to zero, as in, a new user has made zero posts.
+	 * @param int $numposts Optional. Post count to display for this user. Defaults to zero, as in, a new user has made zero posts.
 	 * @return string
 	 */
 	function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
@@ -219,7 +219,7 @@ class WP_Users_List_Table extends WP_List_Table {
 
 		if ( !( is_object( $user_object ) && is_a( $user_object, 'WP_User' ) ) )
 			$user_object = new WP_User( (int) $user_object );
-		$user_object = sanitize_user_object( $user_object, 'display' );
+		$user_object->filter = 'display';
 		$email = $user_object->user_email;
 
 		if ( $this->is_site_users )
@@ -316,5 +316,3 @@ class WP_Users_List_Table extends WP_List_Table {
 		return $r;
 	}
 }
-
-?>

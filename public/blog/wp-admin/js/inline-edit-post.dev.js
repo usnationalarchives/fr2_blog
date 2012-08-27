@@ -117,21 +117,21 @@ inlineEditPost = {
 		if ( 'post' == type ) {
 			// support multi taxonomies?
 			tax = 'post_tag';
-			$('tr.inline-editor textarea[name="tags_input"]').suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+tax, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+			$('tr.inline-editor textarea[name="tax_input['+tax+']"]').suggest( ajaxurl + '?action=ajax-tag-search&tax=' + tax, { delay: 500, minchars: 2, multiple: true, multipleSep: inlineEditL10n.comma + ' ' } );
 		}
 		$('html, body').animate( { scrollTop: 0 }, 'fast' );
 	},
 
 	edit : function(id) {
-		var t = this, fields, editRow, rowData, cats, status, pageOpt, pageLevel, nextPage, pageLoop = true, nextLevel, tax;
+		var t = this, fields, editRow, rowData, status, pageOpt, pageLevel, nextPage, pageLoop = true, nextLevel, cur_format, f;
 		t.revert();
 
 		if ( typeof(id) == 'object' )
 			id = t.getId(id);
 
-		fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password'];
+		fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password', 'post_format', 'menu_order'];
 		if ( t.type == 'page' )
-			fields.push('post_parent', 'menu_order', 'page_template');
+			fields.push('post_parent', 'page_template');
 
 		// add the new blank row
 		editRow = $('#inline-edit').clone(true);
@@ -151,7 +151,15 @@ inlineEditPost = {
 			$('label.inline-edit-author', editRow).hide();
 		}
 
-		for ( var f = 0; f < fields.length; f++ ) {
+		// hide unsupported formats, but leave the current format alone
+		cur_format = $('.post_format', rowData).text();
+		$('option.unsupported', editRow).each(function() {
+			var $this = $(this);
+			if ( $this.val() != cur_format )
+				$this.remove();
+		});
+
+		for ( f = 0; f < fields.length; f++ ) {
 			$(':input[name="' + fields[f] + '"]', editRow).val( $('.'+fields[f], rowData).text() );
 		}
 
@@ -171,17 +179,22 @@ inlineEditPost = {
 				$('ul.'+taxname+'-checklist :checkbox', editRow).val(term_ids.split(','));
 			}
 		});
+
 		//flat taxonomies
 		$('.tags_input', rowData).each(function(){
-			var terms = $(this).text();
+			var terms = $(this).text(),
+				taxname = $(this).attr('id').replace('_' + id, ''),
+				textarea = $('textarea.tax_input_' + taxname, editRow),
+				comma = inlineEditL10n.comma;
 
 			if ( terms ) {
-				taxname = $(this).attr('id').replace('_'+id, '');
-				$('textarea.tax_input_'+taxname, editRow).val(terms);
-				$('textarea.tax_input_'+taxname, editRow).suggest( 'admin-ajax.php?action=ajax-tag-search&tax='+taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: ", " } );
+				if ( ',' !== comma )
+					terms = terms.replace(/,/g, comma);
+				textarea.val(terms);
 			}
-		});
 
+			textarea.suggest( ajaxurl + '?action=ajax-tag-search&tax=' + taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: inlineEditL10n.comma + ' ' } );
+		});
 
 		// handle the post status
 		status = $('._status', rowData).text();
@@ -238,7 +251,7 @@ inlineEditPost = {
 		params = fields + '&' + $.param(params);
 
 		// make ajax request
-		$.post('admin-ajax.php', params,
+		$.post( ajaxurl, params,
 			function(r) {
 				$('table.widefat .inline-edit-save .waiting').hide();
 

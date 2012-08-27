@@ -63,7 +63,8 @@ function bloginfo_rss($show = '') {
  * @return string Default feed, or for example 'rss2', 'atom', etc.
  */
 function get_default_feed() {
-	return apply_filters('default_feed', 'rss2');
+	$default_feed = apply_filters('default_feed', 'rss2');
+	return 'rss' == $default_feed ? 'rss2' : $default_feed;
 }
 
 /**
@@ -423,7 +424,7 @@ function atom_enclosure() {
 	foreach ( (array) get_post_custom() as $key => $val ) {
 		if ($key == 'enclosure') {
 			foreach ( (array) $val as $enc ) {
-				$enclosure = split("\n", $enc);
+				$enclosure = explode("\n", $enc);
 				echo apply_filters('atom_enclosure', '<link href="' . trim(htmlspecialchars($enclosure[0])) . '" rel="enclosure" length="' . trim($enclosure[1]) . '" type="' . trim($enclosure[2]) . '" />' . "\n");
 			}
 		}
@@ -488,8 +489,7 @@ function self_link() {
 	$host = @parse_url(home_url());
 	$host = $host['host'];
 	echo esc_url(
-		'http'
-		. ( (isset($_SERVER['https']) && $_SERVER['https'] == 'on') ? 's' : '' ) . '://'
+		( is_ssl() ? 'https' : 'http' ) . '://'
 		. $host
 		. stripslashes($_SERVER['REQUEST_URI'])
 		);

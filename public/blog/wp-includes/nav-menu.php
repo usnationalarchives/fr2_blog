@@ -554,7 +554,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
  * - object:		The type of object originally represented, such as "category," "post", or "attachment."
  * - type_label:	The singular label used to describe this type of menu item.
  * - post_parent:	The DB ID of the original object's parent object, if any (0 otherwise).
- * - menu_item_parent: 	The DB ID of the nav_menu_item that is this item's menu parent, if any.  0 otherwise.
+ * - menu_item_parent: 	The DB ID of the nav_menu_item that is this item's menu parent, if any. 0 otherwise.
  * - url:		The URL to which this menu item points.
  * - title:		The title of this menu item.
  * - target: 		The target attribute of the link element for this menu item.
@@ -618,7 +618,9 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->target = empty( $menu_item->target ) ? get_post_meta( $menu_item->ID, '_menu_item_target', true ) : $menu_item->target;
 
 			$menu_item->attr_title = empty( $menu_item->attr_title ) ? apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt ) : $menu_item->attr_title;
-			$menu_item->description = empty( $menu_item->description ) ? apply_filters( 'nav_menu_description', $menu_item->post_content ) : $menu_item->description;
+
+			if ( empty( $menu_item->description ) )
+				$menu_item->description = apply_filters( 'nav_menu_description',  wp_trim_words( $menu_item->post_content, 200 ) );
 
 			$menu_item->classes = empty( $menu_item->classes ) ? (array) get_post_meta( $menu_item->ID, '_menu_item_classes', true ) : $menu_item->classes;
 			$menu_item->xfn = empty( $menu_item->xfn ) ? get_post_meta( $menu_item->ID, '_menu_item_xfn', true ) : $menu_item->xfn;
@@ -636,8 +638,8 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->url = get_permalink( $menu_item->ID );
 			$menu_item->target = '';
 
-			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', $menu_item->post_excerpt );
-			$menu_item->description = apply_filters( 'nav_menu_description', $menu_item->post_content );
+			$menu_item->attr_title = apply_filters( 'nav_menu_attr_title', '' );
+			$menu_item->description = apply_filters( 'nav_menu_description', '' );
 			$menu_item->classes = array();
 			$menu_item->xfn = '';
 		}
@@ -780,5 +782,3 @@ function _wp_auto_add_pages_to_menu( $new_status, $old_status, $post ) {
 		wp_update_nav_menu_item( $menu_id, 0, $args );
 	}
 }
-
-?>

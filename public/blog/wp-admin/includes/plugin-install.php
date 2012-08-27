@@ -12,7 +12,7 @@
  * It is possible for a plugin to override the Plugin API result with three
  * filters. Assume this is for plugins, which can extend on the Plugin Info to
  * offer more choices. This is very powerful and must be used with care, when
- * overridding the filters.
+ * overriding the filters.
  *
  * The first filter, 'plugins_api_args', is for the args and gives the action as
  * the second parameter. The hook for 'plugins_api_args' must ensure that an
@@ -35,7 +35,7 @@ function plugins_api($action, $args = null) {
 		$args->per_page = 24;
 
 	// Allows a plugin to override the WordPress.org API entirely.
-	// Use the filter 'plugins_api_result' to mearly add results.
+	// Use the filter 'plugins_api_result' to merely add results.
 	// Please ensure that a object is returned from the following filters.
 	$args = apply_filters('plugins_api_args', $args, $action);
 	$res = apply_filters('plugins_api', false, $action, $args);
@@ -43,11 +43,11 @@ function plugins_api($action, $args = null) {
 	if ( false === $res ) {
 		$request = wp_remote_post('http://api.wordpress.org/plugins/info/1.0/', array( 'timeout' => 15, 'body' => array('action' => $action, 'request' => serialize($args))) );
 		if ( is_wp_error($request) ) {
-			$res = new WP_Error('plugins_api_failed', __('An Unexpected HTTP Error occurred during the API request.'), $request->get_error_message() );
+			$res = new WP_Error('plugins_api_failed', __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="http://wordpress.org/support/">support forums</a>.' ), $request->get_error_message() );
 		} else {
-			$res = unserialize( wp_remote_retrieve_body( $request ) );
-			if ( false === $res )
-				$res = new WP_Error('plugins_api_failed', __('An unknown error occurred.'), wp_remote_retrieve_body( $request ) );
+			$res = maybe_unserialize( wp_remote_retrieve_body( $request ) );
+			if ( ! is_object( $res ) && ! is_array( $res ) )
+				$res = new WP_Error('plugins_api_failed', __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="http://wordpress.org/support/">support forums</a>.' ), wp_remote_retrieve_body( $request ) );
 		}
 	} elseif ( !is_wp_error($res) ) {
 		$res->external = true;
@@ -81,11 +81,10 @@ function install_popular_tags( $args = array() ) {
 
 function install_dashboard() {
 	?>
-	<p><?php _e('Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> or upload a plugin in .zip format via this page.') ?></p>
+	<p><?php printf( __( 'Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="http://wordpress.org/extend/plugins/">WordPress Plugin Directory</a> or upload a plugin in .zip format via <a href="%s">this page</a>.' ), self_admin_url( 'plugin-install.php?tab=upload' ) ); ?></p>
 
 	<h4><?php _e('Search') ?></h4>
-	<p class="install-help"><?php _e('Search for plugins by keyword, author, or tag.') ?></p>
-	<?php install_search_form(); ?>
+	<?php install_search_form( false ); ?>
 
 	<h4><?php _e('Popular tags') ?></h4>
 	<p class="install-help"><?php _e('You may also browse based on the most popular tags in the Plugin Directory:') ?></p>
@@ -97,7 +96,7 @@ function install_dashboard() {
 	if ( is_wp_error($api_tags) ) {
 		echo $api_tags->get_error_message();
 	} else {
-		//Set up the tags in a way which can be interprated by wp_generate_tag_cloud()
+		//Set up the tags in a way which can be interpreted by wp_generate_tag_cloud()
 		$tags = array();
 		foreach ( (array)$api_tags as $tag )
 			$tags[ $tag['name'] ] = (object) array(
@@ -105,7 +104,7 @@ function install_dashboard() {
 									'name' => $tag['name'],
 									'id' => sanitize_title_with_dashes($tag['name']),
 									'count' => $tag['count'] );
-		echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%d plugin'), 'multiple_text' => __('%d plugins') ) );
+		echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%s plugin'), 'multiple_text' => __('%s plugins') ) );
 	}
 	echo '</p><br class="clear" />';
 }
@@ -116,18 +115,20 @@ add_action('install_plugins_dashboard', 'install_dashboard');
  *
  * @since 2.7.0
  */
-function install_search_form(){
-	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : '';
+function install_search_form( $type_selector = true ) {
+	$type = isset($_REQUEST['type']) ? stripslashes( $_REQUEST['type'] ) : 'term';
 	$term = isset($_REQUEST['s']) ? stripslashes( $_REQUEST['s'] ) : '';
 
 	?><form id="search-plugins" method="get" action="">
 		<input type="hidden" name="tab" value="search" />
+		<?php if ( $type_selector ) : ?>
 		<select name="type" id="typeselector">
-			<option value="term"<?php selected('term', $type) ?>><?php _e('Term'); ?></option>
+			<option value="term"<?php selected('term', $type) ?>><?php _e('Keyword'); ?></option>
 			<option value="author"<?php selected('author', $type) ?>><?php _e('Author'); ?></option>
 			<option value="tag"<?php selected('tag', $type) ?>><?php _ex('Tag', 'Plugin Installer'); ?></option>
 		</select>
-		<input type="text" name="s" value="<?php echo esc_attr($term) ?>" />
+		<?php endif; ?>
+		<input type="search" name="s" value="<?php echo esc_attr($term) ?>" />
 		<label class="screen-reader-text" for="plugin-search-input"><?php _e('Search Plugins'); ?></label>
 		<?php submit_button( __( 'Search Plugins' ), 'button', 'plugin-search-input', false ); ?>
 	</form><?php
@@ -167,7 +168,6 @@ add_action('install_plugins_search', 'display_plugins_table');
 add_action('install_plugins_featured', 'display_plugins_table');
 add_action('install_plugins_popular', 'display_plugins_table');
 add_action('install_plugins_new', 'display_plugins_table');
-add_action('install_plugins_updated', 'display_plugins_table');
 
 /**
  * Determine the status we can perform on a plugin.
@@ -175,7 +175,7 @@ add_action('install_plugins_updated', 'display_plugins_table');
  * @since 3.0.0
  */
 function install_plugin_install_status($api, $loop = false) {
-	// this function is called recursivly, $loop prevents futhur loops.
+	// this function is called recursively, $loop prevents further loops.
 	if ( is_array($api) )
 		$api = (object) $api;
 
@@ -185,7 +185,7 @@ function install_plugin_install_status($api, $loop = false) {
 
 	//Check to see if this plugin is known to be installed, and has an update awaiting it.
 	$update_plugins = get_site_transient('update_plugins');
-	if ( is_object( $update_plugins ) ) {
+	if ( isset( $update_plugins->response ) ) {
 		foreach ( (array)$update_plugins->response as $file => $plugin ) {
 			if ( $plugin->slug === $api->slug ) {
 				$status = 'update_available';
@@ -199,7 +199,7 @@ function install_plugin_install_status($api, $loop = false) {
 	}
 
 	if ( 'install' == $status ) {
-		if ( is_dir( WP_PLUGIN_DIR  . '/' . $api->slug ) ) {
+		if ( is_dir( WP_PLUGIN_DIR . '/' . $api->slug ) ) {
 			$installed_plugin = get_plugins('/' . $api->slug);
 			if ( empty($installed_plugin) ) {
 				if ( current_user_can('install_plugins') )
@@ -245,17 +245,31 @@ function install_plugin_information() {
 	if ( is_wp_error($api) )
 		wp_die($api);
 
-	$plugins_allowedtags = array('a' => array('href' => array(), 'title' => array(), 'target' => array()),
-								'abbr' => array('title' => array()), 'acronym' => array('title' => array()),
-								'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
-								'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
-								'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
-								'img' => array('src' => array(), 'class' => array(), 'alt' => array()));
+	$plugins_allowedtags = array(
+		'a' => array( 'href' => array(), 'title' => array(), 'target' => array() ),
+		'abbr' => array( 'title' => array() ), 'acronym' => array( 'title' => array() ),
+		'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
+		'div' => array(), 'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
+		'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
+		'img' => array( 'src' => array(), 'class' => array(), 'alt' => array() )
+	);
+
+	$plugins_section_titles = array(
+		'description'  => _x('Description',  'Plugin installer section title'),
+		'installation' => _x('Installation', 'Plugin installer section title'),
+		'faq'          => _x('FAQ',          'Plugin installer section title'),
+		'screenshots'  => _x('Screenshots',  'Plugin installer section title'),
+		'changelog'    => _x('Changelog',    'Plugin installer section title'),
+		'other_notes'  => _x('Other Notes',  'Plugin installer section title')
+	);
+
 	//Sanitize HTML
 	foreach ( (array)$api->sections as $section_name => $content )
 		$api->sections[$section_name] = wp_kses($content, $plugins_allowedtags);
-	foreach ( array('version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug') as $key )
-		$api->$key = wp_kses($api->$key, $plugins_allowedtags);
+	foreach ( array( 'version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug' ) as $key ) {
+		if ( isset( $api->$key ) )
+			$api->$key = wp_kses( $api->$key, $plugins_allowedtags );
+	}
 
 	$section = isset($_REQUEST['section']) ? stripslashes( $_REQUEST['section'] ) : 'description'; //Default to the Description tab, Do not translate, API returns English.
 	if ( empty($section) || ! isset($api->sections[ $section ]) )
@@ -266,14 +280,16 @@ function install_plugin_information() {
 	echo "<ul id='sidemenu'>\n";
 	foreach ( (array)$api->sections as $section_name => $content ) {
 
-		$title = $section_name;
-		$title = ucwords(str_replace('_', ' ', $title));
+		if ( isset( $plugins_section_titles[ $section_name ] ) )
+			$title = $plugins_section_titles[ $section_name ];
+		else
+			$title = ucwords( str_replace( '_', ' ', $section_name ) );
 
 		$class = ( $section_name == $section ) ? ' class="current"' : '';
 		$href = add_query_arg( array('tab' => $tab, 'section' => $section_name) );
 		$href = esc_url($href);
-		$san_title = esc_attr(sanitize_title_with_dashes($title));
-		echo "\t<li><a name='$san_title' target='' href='$href'$class>$title</a></li>\n";
+		$san_section = esc_attr( $section_name );
+		echo "\t<li><a name='$san_section' href='$href' $class>$title</a></li>\n";
 	}
 	echo "</ul>\n";
 	echo "</div>\n";
@@ -320,18 +336,13 @@ function install_plugin_information() {
 <?php endif; if ( ! empty($api->slug) && empty($api->external) ) : ?>
 			<li><a target="_blank" href="http://wordpress.org/extend/plugins/<?php echo $api->slug ?>/"><?php _e('WordPress.org Plugin Page &#187;') ?></a></li>
 <?php endif; if ( ! empty($api->homepage) ) : ?>
-			<li><a target="_blank" href="<?php echo $api->homepage ?>"><?php _e('Plugin Homepage  &#187;') ?></a></li>
+			<li><a target="_blank" href="<?php echo $api->homepage ?>"><?php _e('Plugin Homepage &#187;') ?></a></li>
 <?php endif; ?>
 		</ul>
 		<?php if ( ! empty($api->rating) ) : ?>
 		<h2><?php _e('Average Rating') ?></h2>
 		<div class="star-holder" title="<?php printf(_n('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?>">
-			<div class="star star-rating" style="width: <?php echo esc_attr($api->rating) ?>px"></div>
-			<div class="star star5"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php _e('5 stars') ?>" /></div>
-			<div class="star star4"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php _e('4 stars') ?>" /></div>
-			<div class="star star3"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php _e('3 stars') ?>" /></div>
-			<div class="star star2"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php _e('2 stars') ?>" /></div>
-			<div class="star star1"><img src="<?php echo admin_url('images/star.png?v=20110615'); ?>" alt="<?php _e('1 star') ?>" /></div>
+			<div class="star star-rating" style="width: <?php echo esc_attr( str_replace( ',', '.', $api->rating ) ); ?>px"></div>
 		</div>
 		<small><?php printf(_n('(based on %s rating)', '(based on %s ratings)', $api->num_ratings), number_format_i18n($api->num_ratings)); ?></small>
 		<?php endif; ?>
@@ -345,18 +356,20 @@ function install_plugin_information() {
 			echo '<div class="updated"><p>' . __('<strong>Warning:</strong> This plugin has <strong>not been marked as compatible</strong> with your version of WordPress.') . '</p></div>';
 
 		foreach ( (array)$api->sections as $section_name => $content ) {
-			$title = $section_name;
-			$title[0] = strtoupper($title[0]);
-			$title = str_replace('_', ' ', $title);
+
+			if ( isset( $plugins_section_titles[ $section_name ] ) )
+				$title = $plugins_section_titles[ $section_name ];
+			else
+				$title = ucwords( str_replace( '_', ' ', $section_name ) );
 
 			$content = links_add_base_url($content, 'http://wordpress.org/extend/plugins/' . $api->slug . '/');
 			$content = links_add_target($content, '_blank');
 
-			$san_title = esc_attr(sanitize_title_with_dashes($title));
+			$san_section = esc_attr( $section_name );
 
 			$display = ( $section_name == $section ) ? 'block' : 'none';
 
-			echo "\t<div id='section-{$san_title}' class='section' style='display: {$display};'>\n";
+			echo "\t<div id='section-{$san_section}' class='section' style='display: {$display};'>\n";
 			echo "\t\t<h2 class='long-header'>$title</h2>";
 			echo $content;
 			echo "\t</div>\n";

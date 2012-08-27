@@ -45,8 +45,15 @@ switch( $action ) {
 case 'editcomment' :
 	$title = __('Edit Comment');
 
-	add_contextual_help( $current_screen, '<p>' . __( 'You can edit the information left in a comment if needed. This is often useful when you notice that a commenter has made a typographical error.' ) . '</p>' .
-	'<p>' . __( 'You can also moderate the comment from this screen using the Status box, where you can also change the timestamp of the comment.' ) . '</p>' .
+	get_current_screen()->add_help_tab( array(
+		'id'      => 'overview',
+		'title'   => __('Overview'),
+		'content' =>
+			'<p>' . __( 'You can edit the information left in a comment if needed. This is often useful when you notice that a commenter has made a typographical error.' ) . '</p>' .
+			'<p>' . __( 'You can also moderate the comment from this screen using the Status box, where you can also change the timestamp of the comment.' ) . '</p>'
+	) );
+
+	get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Administration_Screens#Comments" target="_blank">Documentation on Comments</a>' ) . '</p>' .
 	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
@@ -58,7 +65,7 @@ case 'editcomment' :
 	$comment_id = absint( $_GET['c'] );
 
 	if ( !$comment = get_comment( $comment_id ) )
-		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'javascript:history.go(-1)') );
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">' . __('Go back') . '</a>.', 'javascript:history.go(-1)') );
 
 	if ( !current_user_can( 'edit_comment', $comment_id ) )
 		comment_footer_die( __('You are not allowed to edit this comment.') );
@@ -212,7 +219,7 @@ case 'unapprovecomment' :
 	$noredir = isset($_REQUEST['noredir']);
 
 	if ( !$comment = get_comment($comment_id) )
-		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">'.__('Go back').'</a>!', 'edit-comments.php') );
+		comment_footer_die( __('Oops, no comment with this ID.') . sprintf(' <a href="%s">' . __('Go back') . '</a>.', 'edit-comments.php') );
 	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) )
 		comment_footer_die( __('You are not allowed to edit comments on this post.') );
 
@@ -285,5 +292,3 @@ default:
 } // end switch
 
 include('./admin-footer.php');
-
-?>
