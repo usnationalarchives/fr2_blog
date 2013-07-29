@@ -987,9 +987,12 @@ class wpdb {
 	 * @return null|false|string Sanitized query string, null if there is no query, false if there is an error and string
 	 * 	if there was something to prepare
 	 */
-	function prepare( $query, $args ) {
+	function prepare( $query, $args = null ) {
 		if ( is_null( $query ) )
 			return;
+
+		if ( func_num_args() < 2 )
+			_doing_it_wrong( 'wpdb::prepare', 'wpdb::prepare() requires at least two arguments.', '3.5' );
 
 		$args = func_get_args();
 		array_shift( $args );
@@ -1117,6 +1120,8 @@ class wpdb {
 		$this->last_result = array();
 		$this->col_info    = null;
 		$this->last_query  = null;
+		$this->rows_affected = $this->num_rows = 0;
+		$this->last_error  = '';
 
 		if ( is_resource( $this->result ) )
 			mysql_free_result( $this->result );
@@ -1297,6 +1302,7 @@ class wpdb {
 	function _insert_replace_helper( $table, $data, $format = null, $type = 'INSERT' ) {
 		if ( ! in_array( strtoupper( $type ), array( 'REPLACE', 'INSERT' ) ) )
 			return false;
+		$this->insert_id = 0;
 		$formats = $format = (array) $format;
 		$fields = array_keys( $data );
 		$formatted_fields = array();

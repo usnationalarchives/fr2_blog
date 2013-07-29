@@ -1417,6 +1417,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		$item .= '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
 	}
 
+	if ( $item )
+		$item = '<input type="hidden" name="attachments[' . $attachment_id . '][menu_order]" value="' . esc_attr( $post->menu_order ) . '" />' . $item;
+
 	return array(
 		'item'   => $item,
 		'meta'   => $media_meta,
@@ -2267,9 +2270,7 @@ function multisite_over_quota_message() {
  *
  * @since 3.5.0
  */
-function edit_form_image_editor() {
-	$post = get_post();
-
+function edit_form_image_editor( $post ) {
 	$open = isset( $_GET['image-editor'] );
 	if ( $open )
 		require_once ABSPATH . 'wp-admin/includes/image-edit.php';

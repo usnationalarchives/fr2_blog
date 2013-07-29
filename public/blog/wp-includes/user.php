@@ -474,7 +474,7 @@ class WP_User_Query {
 					$search_columns = array('user_email');
 				elseif ( is_numeric($search) )
 					$search_columns = array('user_login', 'ID');
-				elseif ( preg_match('|^https?://|', $search) && ! wp_is_large_network( 'users' ) )
+				elseif ( preg_match('|^https?://|', $search) && ! ( is_multisite() && function_exists( 'wp_is_large_network' ) && wp_is_large_network( 'users' ) ) )
 					$search_columns = array('user_url');
 				else
 					$search_columns = array('user_login', 'user_nicename');
@@ -1452,6 +1452,8 @@ function wp_update_user($userdata) {
 
 	// First, get all of the original fields
 	$user_obj = get_userdata( $ID );
+	if ( ! $user_obj )
+		return new WP_Error( 'invalid_user_id', __( 'Invalid user ID' ) );
 
 	$user = $user_obj->to_array();
 
