@@ -290,13 +290,13 @@ class WP_Comment_Query {
 				'user_id',
 			);
 			if ( ! empty( $this->query_vars['meta_key'] ) ) {
-				$allowed_keys[] = $q['meta_key'];
+				$allowed_keys[] = $this->query_vars['meta_key'];
 				$allowed_keys[] = 'meta_value';
 				$allowed_keys[] = 'meta_value_num';
 			}
 			$ordersby = array_intersect( $ordersby, $allowed_keys );
 			foreach ( $ordersby as $key => $value ) {
-				if ( $value == $q['meta_key'] || $value == 'meta_value' ) {
+				if ( $value == $this->query_vars['meta_key'] || $value == 'meta_value' ) {
 					$ordersby[ $key ] = "$wpdb->commentmeta.meta_value";
 				} elseif ( $value == 'meta_value_num' ) {
 					$ordersby[ $key ] = "$wpdb->commentmeta.meta_value+0";
@@ -1661,7 +1661,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	if ( 0 === strpos($url, $uploads_dir['baseurl']) )
 		return false;
 
-	$response = wp_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
+	$response = wp_remote_head( $url, array( 'timeout' => 2, 'httpversion' => '1.0', 'reject_unsafe_urls' => true ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1674,7 +1674,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 		return false;
 
 	// Now do a GET since we're going to look in the html headers (and we're sure its not a binary file)
-	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0' ) );
+	$response = wp_remote_get( $url, array( 'timeout' => 2, 'httpversion' => '1.0', 'reject_unsafe_urls' => true ) );
 
 	if ( is_wp_error( $response ) )
 		return false;
@@ -1908,6 +1908,7 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
 
 	$options = array();
 	$options['timeout'] = 4;
+	$options['reject_unsafe_urls'] = true;
 	$options['body'] = array(
 		'title' => $title,
 		'url' => get_permalink($ID),
@@ -1949,6 +1950,37 @@ function weblog_ping($server = '', $path = '') {
 	$home = trailingslashit( home_url() );
 	if ( !$client->query('weblogUpdates.extendedPing', get_option('blogname'), $home, get_bloginfo('rss2_url') ) ) // then try a normal ping
 		$client->query('weblogUpdates.ping', get_option('blogname'), $home);
+}
+
+/**
+ * Default filter attached to pingback_ping_source_uri to validate the pingback's Source URI
+ *
+ * @since 3.5.1
+ * @see wp_http_validate_url()
+ *
+ * @param string $source_uri
+ * @return string
+ */
+function pingback_ping_source_uri( $source_uri ) {
+	return (string) wp_http_validate_url( $source_uri );
+}
+
+/**
+ * Default filter attached to xmlrpc_pingback_error.
+ *
+ * Returns a generic pingback error code unless the error code is 48,
+ * which reports that the pingback is already registered.
+ *
+ * @since 3.5.1
+ * @link http://www.hixie.ch/specs/pingback/pingback#TOC3
+ *
+ * @param IXR_Error $ixr_error
+ * @return IXR_Error
+ */
+function xmlrpc_pingback_error( $ixr_error ) {
+	if ( $ixr_error->code === 48 )
+		return $ixr_error;
+	return new IXR_Error( 0, '' );
 }
 
 //
