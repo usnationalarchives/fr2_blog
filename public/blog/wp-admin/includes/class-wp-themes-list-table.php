@@ -28,7 +28,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 		$themes = wp_get_themes( array( 'allowed' => true ) );
 
 		if ( ! empty( $_REQUEST['s'] ) )
-			$this->search_terms = array_unique( array_filter( array_map( 'trim', explode( ',', strtolower( stripslashes( $_REQUEST['s'] ) ) ) ) ) );
+			$this->search_terms = array_unique( array_filter( array_map( 'trim', explode( ',', strtolower( wp_unslash( $_REQUEST['s'] ) ) ) ) ) );
 
 		if ( ! empty( $_REQUEST['features'] ) )
 			$this->features = $_REQUEST['features'];
@@ -114,6 +114,16 @@ class WP_Themes_List_Table extends WP_List_Table {
 		return array();
 	}
 
+	function display_rows_or_placeholder() {
+		if ( $this->has_items() ) {
+			$this->display_rows();
+		} else {
+			echo '<div class="no-items">';
+			$this->no_items();
+			echo '</div>';
+		}
+	}
+
 	function display_rows() {
 		$themes = $this->items;
 
@@ -148,7 +158,11 @@ class WP_Themes_List_Table extends WP_List_Table {
 					. '" onclick="' . "return confirm( '" . esc_js( sprintf( __( "You are about to delete this theme '%s'\n  'Cancel' to stop, 'OK' to delete." ), $title ) )
 					. "' );" . '">' . __( 'Delete' ) . '</a>';
 
+			/** This filter is documented in wp-admin/includes/class-wp-ms-themes-list-table.php */
 			$actions       = apply_filters( 'theme_action_links', $actions, $theme );
+
+			/** This filter is documented in wp-admin/includes/class-wp-ms-themes-list-table.php */
+			$actions       = apply_filters( "theme_action_links_$stylesheet", $actions, $theme );
 			$delete_action = isset( $actions['delete'] ) ? '<div class="delete-theme">' . $actions['delete'] . '</div>' : '';
 			unset( $actions['delete'] );
 
@@ -208,8 +222,9 @@ class WP_Themes_List_Table extends WP_List_Table {
 
 			foreach ( array( 'Name', 'Description', 'Author', 'AuthorURI' ) as $header ) {
 				// Don't mark up; Do translate.
-				if ( false !== stripos( $theme->display( $header, false, true ), $word ) )
+				if ( false !== stripos( strip_tags( $theme->display( $header, false, true ) ), $word ) ) {
 					continue 2;
+				}
 			}
 
 			if ( false !== stripos( $theme->get_stylesheet(), $word ) )
@@ -227,7 +242,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	/**
 	 * Send required variables to JavaScript land
 	 *
-	 * @since 3.4
+	 * @since 3.4.0
 	 * @access private
 	 *
 	 * @uses $this->features Array of all feature search terms.
@@ -235,7 +250,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	 * @uses _pagination_args['total_pages']
 	 */
 	 function _js_vars( $extra_args = array() ) {
-		$search_string = isset( $_REQUEST['s'] ) ? esc_attr( stripslashes( $_REQUEST['s'] ) ) : '';
+		$search_string = isset( $_REQUEST['s'] ) ? esc_attr( wp_unslash( $_REQUEST['s'] ) ) : '';
 
 		$args = array(
 			'search' => $search_string,
