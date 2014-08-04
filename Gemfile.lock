@@ -1,14 +1,14 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    activerecord (2.3.8)
-      activesupport (= 2.3.8)
-    activesupport (2.3.8)
+    activerecord (2.3.18)
+      activesupport (= 2.3.18)
+    activesupport (2.3.18)
     mysql (2.7)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (= 2.3.8)
+  activerecord (= 2.3.18)
   mysql (= 2.7)
