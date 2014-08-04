@@ -47,8 +47,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		$type_links = array();
 		$_num_posts = (array) wp_count_attachments();
 		$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
-		if ( !isset( $total_orphans ) )
-				$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
+		$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
 		$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
 		foreach ( $matches as $type => $reals )
 			foreach ( $reals as $real )
@@ -91,6 +90,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( 'top' == $which && !is_singular() && !$this->detached && !$this->is_trash ) {
 			$this->months_dropdown( 'attachment' );
 
+			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			do_action( 'restrict_manage_posts' );
 			submit_button( __( 'Filter' ), 'button', false, false, array( 'id' => 'post-query-submit' ) );
 		}
@@ -138,6 +138,14 @@ class WP_Media_List_Table extends WP_List_Table {
 		$taxonomies = get_taxonomies_for_attachments( 'objects' );
 		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
 
+		/**
+		 * Filter the taxonomy columns for attachments in the Media list table.
+		 *
+		 * @since 3.5.0
+		 *
+		 * @param array  $taxonomies An array of registered taxonomies to show for attachments.
+		 * @param string $post_type  The post type. Default 'attachment'.
+		 */
 		$taxonomies = apply_filters( 'manage_taxonomies_for_attachment_columns', $taxonomies, 'attachment' );
 		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
 
@@ -156,10 +164,19 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( !$this->detached ) {
 			$posts_columns['parent'] = _x( 'Uploaded to', 'column name' );
 			if ( post_type_supports( 'attachment', 'comments' ) )
-				$posts_columns['comments'] = '<span class="vers"><div title="' . esc_attr__( 'Comments' ) . '" class="comment-grey-bubble"></div></span>';
+				$posts_columns['comments'] = '<span class="vers"><span title="' . esc_attr__( 'Comments' ) . '" class="comment-grey-bubble"></span></span>';
 		}
 		/* translators: column name */
 		$posts_columns['date'] = _x( 'Date', 'column name' );
+		/**
+		 * Filter the Media list table columns.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $posts_columns An array of columns displayed in the Media list table.
+		 * @param bool  $detached      Whether the list table contains media not attached
+		 *                             to any posts. Default true.
+		 */
 		$posts_columns = apply_filters( 'manage_media_columns', $posts_columns, $this->detached );
 
 		return $posts_columns;
@@ -176,7 +193,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	function display_rows() {
-		global $post, $id;
+		global $post;
 
 		add_filter( 'the_title','esc_html' );
 		$alt = '';
@@ -192,7 +209,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			$post_owner = ( get_current_user_id() == $post->post_author ) ? 'self' : 'other';
 			$att_title = _draft_or_post_title();
 ?>
-	<tr id='post-<?php echo $id; ?>' class='<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>' valign="top">
+	<tr id='post-<?php echo $post->ID; ?>' class='<?php echo trim( $alt . ' author-' . $post_owner . ' status-' . $post->post_status ); ?>'>
 <?php
 
 list( $columns, $hidden ) = $this->get_column_info();
@@ -266,7 +283,12 @@ foreach ( $columns as $column_name => $column_display_name ) {
 
 	case 'author':
 ?>
-		<td <?php echo $attributes ?>><?php the_author() ?></td>
+		<td <?php echo $attributes ?>><?php
+			printf( '<a href="%s">%s</a>',
+				esc_url( add_query_arg( array( 'author' => get_the_author_meta('ID') ), 'upload.php' ) ),
+				get_the_author()
+			);
+		?></td>
 <?php
 		break;
 
@@ -297,13 +319,17 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		break;
 
 	case 'parent':
-		if ( $post->post_parent > 0 ) {
-			if ( get_post( $post->post_parent ) ) {
-				$title =_draft_or_post_title( $post->post_parent );
-			}
+		if ( $post->post_parent > 0 )
+			$parent = get_post( $post->post_parent );
+		else
+			$parent = false;
+
+		if ( $parent ) {
+			$title = _draft_or_post_title( $post->post_parent );
+			$parent_type = get_post_type_object( $parent->post_type );
 ?>
 			<td <?php echo $attributes ?>><strong>
-				<?php if( current_user_can( 'edit_post', $post->post_parent ) ) { ?>
+				<?php if ( current_user_can( 'edit_post', $post->post_parent ) && $parent_type && $parent_type->show_ui ) { ?>
 					<a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
 						<?php echo $title ?></a><?php
 				} else {
@@ -315,7 +341,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		} else {
 ?>
 			<td <?php echo $attributes ?>><?php _e( '(Unattached)' ); ?><br />
-			<?php if( $user_can_edit ) {?>
+			<?php if ( $user_can_edit ) { ?>
 				<a class="hide-if-no-js"
 					onclick="findPosts.open( 'media[]','<?php echo $post->ID ?>' ); return false;"
 					href="#the-list">
@@ -375,7 +401,19 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		}
 ?>
 		<td <?php echo $attributes ?>>
-			<?php do_action( 'manage_media_custom_column', $column_name, $id ); ?>
+			<?php
+				/**
+				 * Fires for each custom column in the Media list table.
+				 *
+				 * Custom columns are registered using the 'manage_media_columns' filter.
+				 *
+				 * @since 2.5.0
+				 *
+				 * @param string $column_name Name of the custom column.
+				 * @param int    $post_id     Attachment ID.
+				 */
+			?>
+			<?php do_action( 'manage_media_custom_column', $column_name, $post->ID ); ?>
 		</td>
 <?php
 		break;
@@ -422,6 +460,17 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			}
 		}
 
+		/**
+		 * Filter the action links for each attachment in the Media list table.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array   $actions  An array of action links for each attachment.
+		 *                          Default 'Edit', 'Delete Permanently', 'View'.
+		 * @param WP_Post $post     WP_Post object for the current attachment.
+		 * @param bool    $detached Whether the list table contains media not attached
+		 *                          to any posts. Default true.
+		 */
 		$actions = apply_filters( 'media_row_actions', $actions, $post, $this->detached );
 
 		return $actions;

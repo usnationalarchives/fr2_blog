@@ -7,7 +7,7 @@
  */
 
 /** WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('upload_files') )
 	wp_die( __( 'You do not have permission to upload files.' ) );
@@ -99,7 +99,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to move this post to the trash.' ) );
 
 				if ( !wp_trash_post( $post_id ) )
-					wp_die( __( 'Error in moving to trash...' ) );
+					wp_die( __( 'Error in moving to trash.' ) );
 			}
 			$location = add_query_arg( array( 'trashed' => count( $post_ids ), 'ids' => join( ',', $post_ids ) ), $location );
 			break;
@@ -111,7 +111,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to move this post out of the trash.' ) );
 
 				if ( !wp_untrash_post( $post_id ) )
-					wp_die( __( 'Error in restoring from trash...' ) );
+					wp_die( __( 'Error in restoring from trash.' ) );
 			}
 			$location = add_query_arg( 'untrashed', count( $post_ids ), $location );
 			break;
@@ -123,7 +123,7 @@ if ( $doaction ) {
 					wp_die( __( 'You are not allowed to delete this post.' ) );
 
 				if ( !wp_delete_attachment( $post_id_del ) )
-					wp_die( __( 'Error in deleting...' ) );
+					wp_die( __( 'Error in deleting.' ) );
 			}
 			$location = add_query_arg( 'deleted', count( $post_ids ), $location );
 			break;
@@ -132,7 +132,7 @@ if ( $doaction ) {
 	wp_redirect( $location );
 	exit;
 } elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
-	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
+	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 	 exit;
 }
 
@@ -141,8 +141,6 @@ $wp_list_table->prepare_items();
 $title = __('Media Library');
 $parent_file = 'upload.php';
 
-wp_enqueue_script( 'wp-ajax-response' );
-wp_enqueue_script( 'jquery-ui-draggable' );
 wp_enqueue_script( 'media' );
 
 add_screen_option( 'per_page', array('label' => _x( 'Media items', 'items per page (screen options)' )) );
@@ -170,14 +168,13 @@ get_current_screen()->add_help_tab( array(
 get_current_screen()->set_help_sidebar(
 	'<p><strong>' . __( 'For more information:' ) . '</strong></p>' .
 	'<p>' . __( '<a href="http://codex.wordpress.org/Media_Library_Screen" target="_blank">Documentation on Media Library</a>' ) . '</p>' .
-	'<p>' . __( '<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
+	'<p>' . __( '<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>' ) . '</p>'
 );
 
-require_once('./admin-header.php');
+require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<?php screen_icon(); ?>
 <h2>
 <?php
 echo esc_html( $title );
@@ -240,11 +237,9 @@ if ( !empty($message) ) { ?>
 <?php $wp_list_table->display(); ?>
 
 <div id="ajax-response"></div>
-<?php find_posts_div(); ?>
-<br class="clear" />
-
+<?php find_posts_div(); ?> 
 </form>
 </div>
 
 <?php
-include('./admin-footer.php');
+include( ABSPATH . 'wp-admin/admin-footer.php' );

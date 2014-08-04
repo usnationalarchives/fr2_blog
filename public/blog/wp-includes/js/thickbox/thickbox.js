@@ -20,7 +20,7 @@ jQuery(document).ready(function(){
 
 //add thickbox to href & area elements that have a class of .thickbox
 function tb_init(domChunk){
-	jQuery(domChunk).live('click', tb_click);
+	jQuery('body').on('click', domChunk, tb_click);
 }
 
 function tb_click(){
@@ -156,11 +156,8 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			}
 
 			jQuery(document).bind('keydown.thickbox', function(e){
-				e.stopImmediatePropagation();
-
 				if ( e.which == 27 ){ // close
-					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
-						tb_remove();
+					tb_remove();
 
 				} else if ( e.which == 190 ){ // display previous image
 					if(!(TB_NextHTML == "")){
@@ -230,10 +227,8 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					jQuery("#TB_window").css({'visibility':'visible'});
 				}else if(url.indexOf('TB_iframe') != -1){
 					tb_position();
-					if(jQuery.browser.safari){//safari needs help because it will not fire iframe onload
-						jQuery("#TB_load").remove();
-						jQuery("#TB_window").css({'visibility':'visible'});
-					}
+					jQuery("#TB_load").remove();
+					jQuery("#TB_window").css({'visibility':'visible'});
 				}else{
 					jQuery("#TB_ajaxContent").load(url += "&random=" + (new Date().getTime()),function(){//to do a post change this load method
 						tb_position();
@@ -246,13 +241,9 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 		}
 
 		if(!params['modal']){
-			jQuery(document).bind('keyup.thickbox', function(e){
-
+			jQuery(document).bind('keydown.thickbox', function(e){
 				if ( e.which == 27 ){ // close
-					e.stopImmediatePropagation();
-					if ( ! jQuery(document).triggerHandler( 'wp_CloseOnEscape', [{ event: e, what: 'thickbox', cb: tb_remove }] ) )
-						tb_remove();
-
+					tb_remove();
 					return false;
 				}
 			});
