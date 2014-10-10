@@ -14,6 +14,6 @@ namespace :wordpress do
   
   desc "download the latest wordpress and load it in place"
   task :update_core do
-    `curl -0 http://wordpress.org/latest.tar.gz > latest.tar.gz && mv public/blog wordpress && tar xvfz latest.tar.gz wordpress && mv wordpress public/blog && rm latest.tar.gz`
+    `curl -L -0 http://wordpress.org/latest.tar.gz > latest.tar.gz && mv public/blog wordpress && tar xvfz latest.tar.gz wordpress && mv wordpress public/blog && rm latest.tar.gz`
   end
 end
