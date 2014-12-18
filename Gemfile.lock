@@ -5,6 +5,7 @@ GEM
       activesupport (= 2.3.18)
     activesupport (2.3.18)
     mysql (2.7)
+    rake (10.3.2)
 
 PLATFORMS
   ruby
@@ -12,3 +13,4 @@ PLATFORMS
 DEPENDENCIES
   activerecord (= 2.3.18)
   mysql (= 2.7)
+  rake (~> 10.3.2)
