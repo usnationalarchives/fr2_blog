@@ -1,0 +1,10 @@
+auth_key: '1@ eeK- *vmBZY{Sx!<VkAdaO|ecNrx34VYymnQe-%5SQUC?,[QH6gz$-6 Wd!>r'
+secure_auth_key: 'J$qDQM{_3w3#UCF(:;`7 (C292(|c!PLLttv2.?s0[qCl(PJ|95|#+%W^>4uQ]9%'
+logged_in_key: 'rUg`|!Ur/~q~UT^+lHc?>1H8x/rGaH8|A4J1JWC9a!7i&&_7C:vUnfQ5J|44$UYK'
+nonce_key: 'r|MGT2+08T>E|NOif:[^;VPHUj527upqw{l+3n%3B(:92-6uNp6ys<Bj6#-hiuC-'
+auth_salt: 'vB%Zvq|<k[8B]Zd<DYY;&Cp+Cv1IY)Rf}EB!F UARY>eB/nc&/{S{ ~TrQH4)/>!'
+secure_auth_salt: 'W<WRU||O,,#l|%_Ip.Z*G#vW;z53V%BR)|4KEWI196#ohKEiWaw8,O?h^`v,Ae#^'
+logged_in_salt: 'kT`v E }(o1[B1Mu5!<bEJNWAvhz V!]I,>HjG:2!C|uH1_m<[teW9uA@140~Yyq'
+nonce_salt: 'LK<I_rY8j?*@tHf_-+E!bPO%[z&?I+:u+4w_1P18yCR?mW>Vi5xY?P;2%M-#]Zzz'
+force_ssl_login: true
+force_ssl_admin: true
