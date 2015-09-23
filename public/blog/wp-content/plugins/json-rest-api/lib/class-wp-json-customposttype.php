@@ -60,8 +60,8 @@ abstract class WP_JSON_CustomPostType extends WP_JSON_Posts {
 	 */
 	public function register_routes( $routes ) {
 		$routes[ $this->base ] = array(
-			array( array( $this, 'get_posts' ), WP_JSON_Server::READABLE ),
-			array( array( $this, 'new_post' ),  WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
+			array( array( $this, 'get_posts' ),   WP_JSON_Server::READABLE ),
+			array( array( $this, 'create_post' ), WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
 		);
 
 		$routes[ $this->base . '/(?P<id>\d+)' ] = array(
@@ -189,11 +189,14 @@ abstract class WP_JSON_CustomPostType extends WP_JSON_Posts {
 	 * Prepare post data
 	 *
 	 * @param array $post The unprepared post data
-	 * @param array $fields The subset of post type fields to return
+	 * @param string $context The context for the prepared post. (view|view-revision|edit|embed|single-parent)
 	 * @return array The prepared post data
 	 */
 	protected function prepare_post( $post, $context = 'view' ) {
 		$_post = parent::prepare_post( $post, $context );
+		if ( is_wp_error( $_post ) ) {
+			return $_post;
+		}
 
 		// Override entity meta keys with the correct links
 		$_post['meta'] = array(

@@ -2,7 +2,7 @@
 
 Access your WordPress site's data through an easy-to-use HTTP REST API.
 
-[![Build Status](https://travis-ci.org/WP-API/WP-API.png?branch=master)](https://travis-ci.org/WP-API/WP-API)
+[![Build Status](https://travis-ci.org/WP-API/WP-API.svg?branch=master)](https://travis-ci.org/WP-API/WP-API)
 
 ## About
 
@@ -48,10 +48,10 @@ Want to test out WP-API and work on it? Here's how you can set up your own
 testing environment in a few easy steps:
 
 1. Install [Vagrant](http://vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
-2. Clone [Chassis](https://github.com/sennza/Chassis):
+2. Clone [Chassis](https://github.com/Chassis/Chassis):
 
    ```bash
-   git clone --recursive git@github.com:sennza/Chassis.git api-tester
+   git clone --recursive git@github.com:Chassis/Chassis.git api-tester
    ```
 
 3. Grab a copy of WP API:
@@ -69,20 +69,30 @@ testing environment in a few easy steps:
    vagrant up
    ```
 
-5. Browse to http://vagrant.local/wp/wp-admin/plugins.php and activate the WP
-API plugin
+5. Activate the plugin:
+
+   ```bash
+   vagrant ssh -c 'cd /vagrant && wp plugin activate json-rest-api'
+   ```
+
+6. Set the permalink structure to something other than the default, in order to
+   enable the http://vagrant.local/wp-json/ endpoint URL (if you skip this
+   step, it can be accessed at http://vagrant.local/?json_route=/):
+
+   ```bash
+   vagrant ssh -c "cd /vagrant && wp rewrite structure '/%postname%/'"
+   ```
+
+You're done! You should now have a WordPress site available at
+http://vagrant.local; you can access the API via http://vagrant.local/wp-json/
+
+To access the admin interface, visit http://vagrant.local/wp/wp-admin and log
+in with the credentials below:
 
    ```
    Username: admin
    Password: password
    ```
-
-6. Browse to http://vagrant.local/wp/wp-admin/options-permalink.php and set
-the permalink structure to anything other than "Default"
-
-7. Browse to http://vagrant.local/wp-json/ (or if the permalink structure is
-still "Default," to http://vagrant.local/?json_route=/)
-
 
 ### Testing
 
@@ -95,12 +105,25 @@ For testing, you'll need a little bit more:
    git clone --recursive https://github.com/Chassis/Tester.git extensions/tester
    ```
 
-3. Run the testing suite:
+2. Run the provisioner:
+
+   ```
+   vagrant provision
+   ```
+
+3. Log in to the virtual machine and run the testing suite:
 
    ```bash
    vagrant ssh
    cd /vagrant/content/plugins/json-rest-api
    phpunit
+   ```
+
+   You can also execute the tests in the context of the VM without SSHing
+   into the virtual machine (this is equivalent to the above):
+
+   ```bash
+   vagrant ssh -c 'cd /vagrant/content/plugins/json-rest-api && phpunit'
    ```
 
 
@@ -112,7 +135,7 @@ look at the [recent updates][] for the project.
 Previous issues can be found on the [GSOC Trac][] issue tracker, however new
 issues should not be filed there.
 
-[docs]: https://github.com/WP-API/WP-API/tree/master/docs
+[docs]: http://wp-api.org/
 [GitHub]: https://github.com/WP-API/WP-API
 [GSOC Trac]: https://gsoc.trac.wordpress.org/query?component=JSON+REST+API
 [recent updates]: http://make.wordpress.org/core/tag/json-api/

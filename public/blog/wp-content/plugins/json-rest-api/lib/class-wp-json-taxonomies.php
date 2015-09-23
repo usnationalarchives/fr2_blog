@@ -9,28 +9,28 @@ class WP_JSON_Taxonomies {
 	 */
 	public function register_routes( $routes ) {
 		$tax_routes = array(
-			'/posts/types/(?P<type>\w+)/taxonomies' => array(
+			'/posts/types/(?P<type>[\w-]+)/taxonomies' => array(
 				array( array( $this, 'get_taxonomies_for_type' ), WP_JSON_Server::READABLE | WP_JSON_Server::HIDDEN_ENDPOINT ),
 			),
-			'/posts/types/(?P<type>\w+)/taxonomies/(?P<taxonomy>\w+)' => array(
+			'/posts/types/(?P<type>[\w-]+)/taxonomies/(?P<taxonomy>[\w-]+)' => array(
 				array( array( $this, 'get_taxonomy' ),   WP_JSON_Server::READABLE | WP_JSON_Server::HIDDEN_ENDPOINT ),
 			),
-			'/posts/types/(?P<type>\w+)/taxonomies/(?P<taxonomy>\w+)/terms' => array(
+			'/posts/types/(?P<type>[\w-]+)/taxonomies/(?P<taxonomy>[\w-]+)/terms' => array(
 				array( array( $this, 'get_terms' ),      WP_JSON_Server::READABLE | WP_JSON_Server::HIDDEN_ENDPOINT ),
 			),
-			'/posts/types/(?P<type>\w+)/taxonomies/(?P<taxonomy>\w+)/terms/(?P<term>\w+)' => array(
+			'/posts/types/(?P<type>[\w-]+)/taxonomies/(?P<taxonomy>[\w-]+)/terms/(?P<term>[\w-]+)' => array(
 				array( array( $this, 'get_term' ),       WP_JSON_Server::READABLE | WP_JSON_Server::HIDDEN_ENDPOINT ),
 			),
 			'/taxonomies' => array(
 				array( array( $this, 'get_taxonomies' ), WP_JSON_Server::READABLE ),
 			),
-			'/taxonomies/(?P<taxonomy>\w+)' => array(
+			'/taxonomies/(?P<taxonomy>[\w-]+)' => array(
 				array( array( $this, 'get_taxonomy_object' ), WP_JSON_Server::READABLE ),
 			),
-			'/taxonomies/(?P<taxonomy>\w+)/terms' => array(
+			'/taxonomies/(?P<taxonomy>[\w-]+)/terms' => array(
 				array( array( $this, 'get_taxonomy_terms' ), WP_JSON_Server::READABLE ),
 			),
-			'/taxonomies/(?P<taxonomy>\w+)/terms/(?P<term>\w+)' => array(
+			'/taxonomies/(?P<taxonomy>[\w-]+)/terms/(?P<term>[\w-]+)' => array(
 				array( array( $this, 'get_taxonomy_term' ), WP_JSON_Server::READABLE ),
 			),
 		);
@@ -207,7 +207,7 @@ class WP_JSON_Taxonomies {
 	 * @param string $taxonomy Taxonomy slug
 	 * @return array Term collection
 	 */
-	public function get_taxonomy_terms( $taxonomy ) {
+	public function get_taxonomy_terms( $taxonomy, $filter = array() ) {
 		if ( ! taxonomy_exists( $taxonomy ) ) {
 			return new WP_Error( 'json_taxonomy_invalid_id', __( 'Invalid taxonomy ID.' ), array( 'status' => 404 ) );
 		}
@@ -215,7 +215,34 @@ class WP_JSON_Taxonomies {
 		$args = array(
 			'hide_empty' => false,
 		);
-
+		
+		// Allow args in get_terms function. This is a partial list and does not include hide_empty and cache_domain.  
+		$valid_vars = array(
+			'orderby',
+			'order',
+			'exclude',
+			'exclude_tree',
+			'include',
+			'number',
+			'fields',
+			'slug',
+			'parent',
+			'hierarchical',
+			'child_of',
+			'get',
+			'name__like',
+			'description__like',
+			'pad_counts',
+			'offset',
+			'search',
+		);
+		
+		foreach ( $valid_vars as $var ) {
+			if ( isset( $filter[ $var ] ) ) {
+				$args[ $var ] = apply_filters( 'json_tax_query_var-' . $var, $filter[ $var ] );
+			}
+		}
+		
 		$terms = get_terms( $taxonomy, $args );
 
 		if ( is_wp_error( $terms ) ) {
@@ -321,6 +348,7 @@ class WP_JSON_Taxonomies {
 			'name'        => $term->name,
 			'slug'        => $term->slug,
 			'description' => $term->description,
+			'taxonomy'    => $term->taxonomy,
 			'parent'      => (int) $term->parent,
 			'count'       => (int) $term->count,
 			'link'        => get_term_link( $term, $term->taxonomy ),
@@ -338,6 +366,6 @@ class WP_JSON_Taxonomies {
 			$data['parent'] = null;
 		}
 
-		return apply_filters( 'json_prepare_term', $data, $term );
+		return apply_filters( 'json_prepare_term', $data, $term, $context );
 	}
 }
