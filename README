@@ -1,3 +1,5 @@
+*** This repository is no longer in use and not maintained. Archived for reference only. ***
+
 Wordpress installation for FR2. Include wordpress core and custom ESI-based theme.
 
 Run `cp config/wp-config.yml.sample config/wp-config.yml` and modify as necessary. 
